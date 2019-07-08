@@ -1,0 +1,24 @@
+{
+  "name": "pharmacyscheduler",
+  "version": "1.0.0",
+  "description": "Automated Scheduling for Pharmacy Managers",
+  "main": "app.js",
+  "dependencies": {
+    "jquery": "^3.4.1",
+    "node": "^12.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/melekajacob/pharmacy_scheduler.git"
+  },
+  "author": "Jacob Meleka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/melekajacob/pharmacy_scheduler/issues"
+  },
+  "homepage": "https://github.com/melekajacob/pharmacy_scheduler#readme"
+}
