@@ -7,7 +7,7 @@
       rel="stylesheet"
       href="../node_modules/bootstrap/dist/css/bootstrap.css"
     />
-    <!-- <link rel="stylesheet" href="../public/stylesheets/landing.css" /> -->
+    <link rel="stylesheet" href="../public/stylesheets/main.css" />
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"
       type="text/javascript"
@@ -15,7 +15,161 @@
     ></script>
   </head>
 
-  <body class="bg-default">
-    <div class="container-fluid"></div>
+  <body class="bg-default px-0">
+    <div class="container-fluid p-0">
+      <div
+        class="col-md-12 p-0"
+        data-spy="scroll"
+        data-target="#list-example"
+        data-offset="0"
+      >
+        <div class="card">
+          <div class="card-header text-white">
+            <h2>New Employee</h2>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-md-5">
+                <label for="firstName">First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firstName"
+                  name="patient[personalInfo][firstName]"
+                  placeholder="First Name"
+                />
+              </div>
+              <div class="form-group col-md-5">
+                <label for="lastName">Last Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  name="patient[personalInfo][lastName]"
+                  placeholder="Last Name"
+                />
+              </div>
+              <div class="form-group col-md-2">
+                <label for="gender">Gender</label>
+                <select
+                  class="form-control"
+                  id="gender"
+                  name="patient[personalInfo][gender]"
+                >
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="healthCard">Health Card Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="healthCard"
+                  name="patient[personalInfo][healthCard]"
+                  placeholder="Health Card Number"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="address">Address</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address"
+                  name="patient[personalInfo][address]"
+                  placeholder="Address"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="phoneNumber">Phone Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phoneNumber"
+                  name="patient[personalInfo][phoneNumber]"
+                  placeholder="Phone Number"
+                />
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="patient[personalInfo][email]"
+                  placeholder="Email"
+                />
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="dob">Date of Birth</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="dob"
+                  name="patient[personalInfo][dob]"
+                />
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="form-row">
+              <div class="form-group col-md-2">
+                <label for="insurance">Insurance</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="insurance"
+                  name="patient[personalInfo][insurance]"
+                  placeholder="Insurance"
+                />
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="groupNumber">Group Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="groupNumber"
+                  name="patient[personalInfo][groupNumber]"
+                  placeholder="Group Number"
+                />
+              </div>
+
+              <div class="form-group col-md-4">
+                <label for="idNumber">Identification Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="idNumber"
+                  name="patient[personalInfo][idNumber]"
+                  placeholder="Identification Number"
+                />
+              </div>
+
+              <div class="form-group col-md-2">
+                <label for="carrier">Carrier</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="carrier"
+                  name="patient[personalInfo][carrier]"
+                  placeholder="Carrier"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
   </body>
 </html>
