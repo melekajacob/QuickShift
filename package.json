@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "bootstrap-datepicker": "^1.9.0",
     "jquery": "^3.4.1",
     "node": "^12.6.0"
   },

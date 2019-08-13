@@ -13,163 +13,172 @@
       type="text/javascript"
       async
     ></script>
+
+    <script>
+      var $ = require("jquery");
+      $(".datepicker").datepicker();
+    </script>
   </head>
 
   <body class="bg-default px-0">
     <div class="container-fluid p-0">
-      <div
-        class="col-md-12 p-0"
-        data-spy="scroll"
-        data-target="#list-example"
-        data-offset="0"
-      >
+      <div class="col-md-12 p-0">
         <div class="card">
           <div class="card-header text-white">
             <h2>New Employee</h2>
           </div>
           <div class="card-body">
             <div class="form-row">
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-6">
                 <label for="firstName">First Name</label>
                 <input
                   type="text"
                   class="form-control"
                   id="firstName"
-                  name="patient[personalInfo][firstName]"
+                  name="firstName"
                   placeholder="First Name"
                 />
               </div>
-              <div class="form-group col-md-5">
+              <div class="form-group col-md-6">
                 <label for="lastName">Last Name</label>
                 <input
                   type="text"
                   class="form-control"
                   id="lastName"
-                  name="patient[personalInfo][lastName]"
+                  name="lastName"
                   placeholder="Last Name"
                 />
               </div>
-              <div class="form-group col-md-2">
-                <label for="gender">Gender</label>
-                <select
-                  class="form-control"
-                  id="gender"
-                  name="patient[personalInfo][gender]"
-                >
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
             </div>
-
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="healthCard">Health Card Number</label>
+                <label for="minHoursPerWeek">Minimum Hours Per Week</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="healthCard"
-                  name="patient[personalInfo][healthCard]"
-                  placeholder="Health Card Number"
+                  id="minHoursPerWeek"
+                  name="minHoursPerWeek"
+                  placeholder="Minimum Hours Per Week"
                 />
               </div>
               <div class="form-group col-md-6">
-                <label for="address">Address</label>
+                <label for="maxHoursPerWeek">Maximum Hours Per Week</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="address"
-                  name="patient[personalInfo][address]"
-                  placeholder="Address"
-                />
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-md-4">
-                <label for="phoneNumber">Phone Number</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="phoneNumber"
-                  name="patient[personalInfo][phoneNumber]"
-                  placeholder="Phone Number"
-                />
-              </div>
-
-              <div class="form-group col-md-4">
-                <label for="email">Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  name="patient[personalInfo][email]"
-                  placeholder="Email"
-                />
-              </div>
-
-              <div class="form-group col-md-4">
-                <label for="dob">Date of Birth</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="dob"
-                  name="patient[personalInfo][dob]"
+                  id="maxHoursPerWeek"
+                  name="maxHoursPerWeek"
+                  placeholder="Maximum Hours Per Week"
                 />
               </div>
             </div>
 
             <hr />
 
+            <label for="primarySkills">Primary Skills</label>
             <div class="form-row">
+              <div class="form-group col-md-10">
+                <select
+                  class="form-control"
+                  id="primarySkills"
+                  name="primarySkills"
+                >
+                  <option selected disable hidden value=""
+                    >Select Primary Skills</option
+                  >
+                  <option value="Prescription Processing"
+                    >Prescription Processing</option
+                  >
+                  <option value="Medication Counting"
+                    >Medication Counting</option
+                  >
+                  <option value="Cashier">Cashier</option>
+                </select>
+              </div>
               <div class="form-group col-md-2">
-                <label for="insurance">Insurance</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="insurance"
-                  name="patient[personalInfo][insurance]"
-                  placeholder="Insurance"
-                />
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  onclick="addPrimarySkill()"
+                >
+                  Add Primary Skill
+                </button>
               </div>
+            </div>
 
-              <div class="form-group col-md-4">
-                <label for="groupNumber">Group Number</label>
-                <input
-                  type="text"
+            <label for="secondarySkills">Secondary Skills</label>
+            <div class="form-row">
+              <div class="form-group col-md-10">
+                <select
                   class="form-control"
-                  id="groupNumber"
-                  name="patient[personalInfo][groupNumber]"
-                  placeholder="Group Number"
-                />
+                  id="secondarySkills"
+                  name="secondarySkills"
+                >
+                  <option selected disable hidden value=""
+                    >Select Secondary Skills</option
+                  >
+                  <option value="Prescription Processing"
+                    >Prescription Processing</option
+                  >
+                  <option value="Medication Counting"
+                    >Medication Counting</option
+                  >
+                  <option value="Cashier">Cashier</option>
+                </select>
               </div>
-
-              <div class="form-group col-md-4">
-                <label for="idNumber">Identification Number</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="idNumber"
-                  name="patient[personalInfo][idNumber]"
-                  placeholder="Identification Number"
-                />
-              </div>
-
               <div class="form-group col-md-2">
-                <label for="carrier">Carrier</label>
-                <input
-                  type="text"
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  onclick="addSecondarySkill()"
+                >
+                  Add Secondary Skill
+                </button>
+              </div>
+            </div>
+
+            <hr />
+
+            <div class="input-group date">
+              <input type="text" class="form-control" value="12-02-2012" />
+              <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+              </div>
+            </div>
+
+            <label for="daysUnavailable">Days Unavailable</label>
+            <div class="form-row">
+              <div class="form-group col-md-10">
+                <select
                   class="form-control"
-                  id="carrier"
-                  name="patient[personalInfo][carrier]"
-                  placeholder="Carrier"
-                />
+                  id="daysUnavailable"
+                  name="daysUnavailable"
+                >
+                  <option selected disable hidden value=""
+                    >Select Day of the Week</option
+                  >
+                  <option value="Prescription Processing"
+                    >Prescription Processing</option
+                  >
+                  <option value="Medication Counting"
+                    >Medication Counting</option
+                  >
+                  <option value="Cashier">Cashier</option>
+                </select>
+              </div>
+              <div class="form-group col-md-2">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  onclick="addSecondarySkill()"
+                >
+                  Add Secondary Skill
+                </button>
               </div>
             </div>
           </div>
         </div>
-
+      </div>
     </div>
   </body>
 </html>
