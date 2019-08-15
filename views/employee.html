@@ -112,9 +112,7 @@
             <div id="primarySkillsSection">
               <div class="form-row">
                 <div class="form-group col-md-10">
-                  <select
-                    class="form-control primarySkills"
-                  >
+                  <select class="form-control primarySkills">
                     <option selected disable hidden value=""
                       >Select Primary Skills</option
                     >
@@ -138,36 +136,33 @@
                 </div>
               </div>
             </div>
-            
 
             <label for="secondarySkills">Secondary Skills</label>
-            <div class="form-row">
-              <div class="form-group col-md-10">
-                <select
-                  class="form-control"
-                  id="secondarySkills"
-                  name="secondarySkills"
-                >
-                  <option selected disable hidden value=""
-                    >Select Secondary Skills</option
+            <div id="secondarySkillsSection">
+              <div class="form-row">
+                <div class="form-group col-md-10">
+                  <select class="form-control secondarySkills">
+                    <option selected disable hidden value=""
+                      >Select Secondary Skills</option
+                    >
+                    <option value="Prescription Processing"
+                      >Prescription Processing</option
+                    >
+                    <option value="Medication Counting"
+                      >Medication Counting</option
+                    >
+                    <option value="Cashier">Cashier</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-2">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    id="addSecondarySkill"
                   >
-                  <option value="Prescription Processing"
-                    >Prescription Processing</option
-                  >
-                  <option value="Medication Counting"
-                    >Medication Counting</option
-                  >
-                  <option value="Cashier">Cashier</option>
-                </select>
-              </div>
-              <div class="form-group col-md-2">
-                <button
-                  class="btn btn-primary"
-                  type="button"
-                  onclick="addSecondarySkill()"
-                >
-                  Add Secondary Skill
-                </button>
+                    Add Secondary Skill
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -191,81 +186,76 @@
               </div>
             </div>
 
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <select
-                  class="form-control"
-                  id="daysUnavailable"
-                  name="daysUnavailable"
-                >
-                  <option selected disable hidden value=""
-                    >Select Day of the Week</option
+            <div id="dayUnavailabilitySection">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <select class="form-control dayUnavailable">
+                    <option selected disable hidden value=""
+                      >Select Day of the Week</option
+                    >
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-2">
+                  <input
+                    type="time"
+                    class="form-control dayUnavailabilityStart"
+                  />
+                </div>
+
+                <div class="form-group col-md-2">
+                  <input
+                    type="time"
+                    class="form-control dayUnavailabilityEnd"
+                  />
+                </div>
+
+                <div class="form-group col-md-2">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    id="addDayUnavailability"
                   >
-                  <option value="Monday">Monday</option>
-                  <option value="Tuesday">Tuesday</option>
-                  <option value="Wednesday">Wednesday</option>
-                  <option value="Thursday">Thursday</option>
-                  <option value="Friday">Friday</option>
-                  <option value="Saturday">Saturday</option>
-                  <option value="Sunday">Sunday</option>
-                </select>
-              </div>
-
-              <div class="form-group col-md-2">
-                <input
-                  type="time"
-                  class="form-control"
-                  id="dayUnavailabilityStart"
-                  name="dayUnavailabilityStart"
-                />
-              </div>
-
-              <div class="form-group col-md-2">
-                <input
-                  type="time"
-                  class="form-control"
-                  id="dayUnavailabilityEnd"
-                  name="dayUnavailabilityEnd"
-                />
-              </div>
-
-              <div class="form-group col-md-2">
-                <button
-                  class="btn btn-primary"
-                  type="button"
-                  onclick="addDayUnavailability()"
-                >
-                  Add Day Unavailability
-                </button>
+                    Add Day Unavailability
+                  </button>
+                </div>
               </div>
             </div>
 
             <label for="dateInput">Dates Unavailable</label>
-            <div class="form-row">
-              <div class="form-group col-md-10">
-                <div class="input-group date">
-                  <input
-                    type="text"
-                    class="form-control dateInput"
-                    id="datesUnavailable"
-                    aria-describedby="calenderIcon"
-                  />
-                  <div class="input-group-append">
-                    <span class="input-group-text" id="calenderIcon"
-                      ><i class="fas fa-calendar-alt"></i
-                    ></span>
+            <div id="dateUnavailableSection">
+              <div class="form-row">
+                <div class="form-group col-md-10">
+                  <div class="input-group date">
+                    <input
+                      type="text"
+                      class="form-control dateInput dateUnavailable"
+                      aria-describedby="calenderIcon"
+                    />
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="calenderIcon"
+                        ><i class="fas fa-calendar-alt"></i
+                      ></span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-group col-md-2">
-                <button
-                  class="btn btn-primary"
-                  type="button"
-                  onclick="addDateUnavailability()"
-                >
-                  Add Date Unavailability
-                </button>
+                <div class="form-group col-md-2">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    id="addDateUnavailability"
+                  >
+                    Add Date Unavailability
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -279,47 +269,46 @@
               </div>
             </div>
 
-            <div class="form-row">
-              <div class="form-group col-md-5">
-                <div class="input-group date">
-                  <input
-                    type="text"
-                    class="form-control dateInput"
-                    id="prolongedUnavailabilityStart"
-                    aria-describedby="calenderIcon"
-                  />
-                  <div class="input-group-append">
-                    <span class="input-group-text" id="calenderIcon"
-                      ><i class="fas fa-calendar-alt"></i
-                    ></span>
+            <div id="prolongedUnavailabilitySection">
+              <div class="form-row">
+                <div class="form-group col-md-5">
+                  <div class="input-group date">
+                    <input
+                      type="text"
+                      class="form-control dateInput prolongedUnavailabilityStart"
+                    />
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="calenderIcon"
+                        ><i class="fas fa-calendar-alt"></i
+                      ></span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-group col-md-5">
-                <div class="input-group date">
-                  <input
-                    type="text"
-                    class="form-control dateInput"
-                    id="prolongedUnavailabilityEnd"
-                    aria-describedby="calenderIcon"
-                  />
-                  <div class="input-group-append">
-                    <span class="input-group-text" id="calenderIcon"
-                      ><i class="fas fa-calendar-alt"></i
-                    ></span>
+                <div class="form-group col-md-5">
+                  <div class="input-group date">
+                    <input
+                      type="text"
+                      class="form-control dateInput prolongedUnavailabilityEnd"
+                      aria-describedby="calenderIcon"
+                    />
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="calenderIcon"
+                        ><i class="fas fa-calendar-alt"></i
+                      ></span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-group col-md-2">
-                <button
-                  class="btn btn-primary"
-                  type="button"
-                  onclick="addProlongedUnavailability()"
-                >
-                  Add Prolonged Unavailability
-                </button>
+                <div class="form-group col-md-2">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    id="addProlongedUnavailability"
+                  >
+                    Add Prolonged Unavailability
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -338,52 +327,56 @@
               </div>
             </div>
 
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <select
-                  class="form-control"
-                  id="preferredShift"
-                  name="preferredShift"
-                >
-                  <option selected disable hidden value=""
-                    >Select Day of the Week</option
+            <div id="preferredShiftSection">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <select class="form-control preferredShift">
+                    <option selected disable hidden value=""
+                      >Select Day of the Week</option
+                    >
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-md-2">
+                  <input type="time" class="form-control preferredShiftStart" />
+                </div>
+
+                <div class="form-group col-md-2">
+                  <input type="time" class="form-control preferredShiftEnd" />
+                </div>
+
+                <div class="form-group col-md-2">
+                  <button
+                    class="btn btn-primary"
+                    type="button"
+                    id="addPreferredShift"
                   >
-                  <option value="Monday">Monday</option>
-                  <option value="Tuesday">Tuesday</option>
-                  <option value="Wednesday">Wednesday</option>
-                  <option value="Thursday">Thursday</option>
-                  <option value="Friday">Friday</option>
-                  <option value="Saturday">Saturday</option>
-                  <option value="Sunday">Sunday</option>
-                </select>
+                    Add Preferred Shift
+                  </button>
+                </div>
               </div>
+            </div>
 
-              <div class="form-group col-md-2">
-                <input
-                  type="time"
-                  class="form-control"
-                  id="preferredShiftStart"
-                  name="preferredShiftStart"
-                />
-              </div>
+            <hr />
 
-              <div class="form-group col-md-2">
-                <input
-                  type="time"
-                  class="form-control"
-                  id="preferredShiftEnd"
-                  name="preferredShiftEnd"
-                />
-              </div>
-
-              <div class="form-group col-md-2">
-                <button
-                  class="btn btn-primary"
-                  type="button"
-                  onclick="addPreferredShift()"
-                >
-                  Add Preferred Shift
+            <div class="form-row justify-content-end ">
+              <div class="form-group mr-2">
+                <button class="btn btn-primary" type="button" id="addEmployee">
+                  Add Employee
                 </button>
+              </div>
+
+              <div class="form-group">
+                <a class="btn btn-danger" href="./employeeList.html">
+                  Cancel Adding Employee
+                </a>
               </div>
             </div>
           </div>
