@@ -4,10 +4,23 @@
 // 2: Once a skill has been added, that skill will be disabled from list to reduce redundent inputs
 // 3: Add remove button for all supplementary inputs
 // 4: Setting required fields
+// 5: Form requirements and validation
+
+// Importing ipcRenderer to allow for communication with main process
+const { ipcRenderer } = require("electron");
+
+// Allows jQuery to work
 // /* global $ */
 
-// Requiring employee class
-const Employee = require("./employeeClass");
+// Functions to allow data to be retrieved from form
+const retrieveList = require("../public/javascript/classLibrary.js")
+  .retrieveList;
+
+const retrieveListFromDays = require("../public/javascript/classLibrary.js")
+  .retrieveListFromDays;
+
+const retrieveListFromProlonged = require("../public/javascript/classLibrary.js")
+  .retrieveListFromProlonged;
 
 $(document).ready(() => {
   // Sets the datepicker on the input
@@ -15,12 +28,6 @@ $(document).ready(() => {
     todayHighlight: true,
     autoclose: true
   });
-
-  // Sets value of datepicker to today's date for all date inputs
-  today = new Date();
-  date =
-    today.getMonth() + 1 + "-" + today.getDate() + "-" + today.getFullYear();
-  $(".dateInput").val(date);
 
   //======================
   // FORM FUNCTIONALITY
@@ -206,7 +213,7 @@ $(document).ready(() => {
 
     $(".dateUnavailable")
       .first()
-      .val(date);
+      .val("");
   });
 
   //ADDING PROLONGED UNAVAILABILITY
@@ -263,10 +270,10 @@ $(document).ready(() => {
     // Resetting Input
     $(".prolongedUnavailabilityStart")
       .first()
-      .val(date);
+      .val("");
     $(".prolongedUnavailabilityEnd")
       .first()
-      .val(date);
+      .val("");
   });
 
   //ADDING PREFERRED SHIFTS
@@ -336,7 +343,31 @@ $(document).ready(() => {
   // =================================
   $("#addEmployee").on("click", e => {
     // Retrieving form data
-    // Inputting form data into employee object
-    // Sending employee object to main process
+    var newEmployee = {
+      firstName: $("#firstName").val(),
+      lastName: $("#lastName").val(),
+      minHoursPerWeek: $("#minHoursPerWeek").val(),
+      maxHoursPerWeek: $("#maxHoursPerWeek").val(),
+      primarySkills: retrieveList("primarySkills"),
+      secondarySkills: retrieveList("secondarySkills"),
+      daysUnavailable: retrieveListFromDays(
+        "dayUnavailable",
+        "dayUnavailabilityStart",
+        "dayUnavailabilityEnd"
+      ),
+      datesUnavailable: retrieveList("dateUnavailable"),
+      prolongedUnavailability: retrieveListFromProlonged(
+        "prolongedUnavailabilityStart",
+        "prolongedUnavailabilityEnd"
+      ),
+      preferredShifts: retrieveListFromDays(
+        "preferredShift",
+        "preferredShiftStart",
+        "preferredShiftEnd"
+      )
+    };
+
+    // Sending data to main process to be stored
+    ipcRenderer.send("newEmployee", newEmployee);
   });
 });
