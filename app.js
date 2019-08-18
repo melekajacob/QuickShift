@@ -49,6 +49,20 @@ ipcMain.on("newEmployee", (e, newEmployee) => {
   });
 });
 
+// Listens for new employee list 
+ipcMain.on("employeeList", (e) => {
+  employeeDB.find({}, (err, employees) => {
+    if(err) {
+      console.log(err)
+    }
+    else {
+      // Replying to renderer process with full list of employees
+      e.reply("employeeListReply", employees)
+    }
+    
+  })
+})
+
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();

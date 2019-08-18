@@ -6,3 +6,7 @@
   padding: 0;
   margin: 0;
 }
+
+.card-text b {
+  color: black;
+}

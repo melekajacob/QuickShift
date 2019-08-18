@@ -369,5 +369,7 @@ $(document).ready(() => {
 
     // Sending data to main process to be stored
     ipcRenderer.send("newEmployee", newEmployee);
+
+    // Receiving response and showing success message
   });
 });
