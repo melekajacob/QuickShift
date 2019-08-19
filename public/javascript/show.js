@@ -177,6 +177,110 @@ ipcRenderer.once("showEmployee", (e, employee) => {
   }
 
   // Setting prolonged unavailability
+  $(".prolongedUnavailabilityStart").val(
+    employee.prolongedUnavailability[0].startTime
+  );
+
+  $(".prolongedUnavailabilityEnd").val(
+    employee.prolongedUnavailability[0].endTime
+  );
+
+  // If more than one secondary skills, append
+  if (employee.prolongedUnavailability > 1) {
+    for (var i = 1; i < employee.prolongedUnavailability.length; i++) {
+      // Appending new prolonged unavailability if more than 1
+      $("#prolongedUnavailabilitySection").append(
+        '<div class="form-row">' +
+          '<div class="form-group col-md-5">' +
+          '<div class="input-group date">' +
+          "<input" +
+          ' type="text"' +
+          ' class="form-control dateInput prolongedUnavailabilityStart"' +
+          "/>" +
+          '<div class="input-group-append">' +
+          '<span class="input-group-text" id="calenderIcon"' +
+          '><i class="fas fa-calendar-alt"></i' +
+          "></span>" +
+          "</div>" +
+          "</div>" +
+          "</div>" +
+          '<div class="form-group col-md-5">' +
+          '<div class="input-group date">' +
+          "<input" +
+          ' type="text"' +
+          ' class="form-control dateInput prolongedUnavailabilityEnd"' +
+          ' aria-describedby="calenderIcon"' +
+          "/>" +
+          '<div class="input-group-append">' +
+          '<span class="input-group-text" id="calenderIcon"' +
+          '><i class="fas fa-calendar-alt"></i' +
+          "></span>" +
+          "</div>" +
+          "</div>" +
+          "</div>" +
+          "</div>"
+      );
+
+      // Setting selected times
+      $(".prolongedUnavailabilityStart")
+        .last()
+        .val(employee.prolongedUnavailability[i].startTime);
+      $(".prolongedUnavailabilityEnd")
+        .last()
+        .val(employee.prolongedUnavailability[i].endTime);
+    }
+  }
 
   // Setting preferred shifts
+  $(".preferredShift").val(employee.preferredShifts[0].dayOfWeek);
+
+  $(".preferredShiftStart").val(employee.preferredShifts[0].startTime);
+
+  $(".preferredShiftEnd").val(employee.preferredShifts[0].endTime);
+
+  // If more than one preferred shift, append
+  if (employee.preferredShifts.length > 1) {
+    for (var i = 1; i < employee.preferredShifts.length; i++) {
+      $("#preferredShiftSection").append(
+        '<div class="form-row">' +
+          '<div class="form-group col-md-6">' +
+          '<select class="form-control preferredShift">' +
+          '<option selected disable hidden value=""' +
+          ">Select Day of the Week</option" +
+          ">" +
+          '<option value="Monday">Monday</option>' +
+          '<option value="Tuesday">Tuesday</option>' +
+          '<option value="Wednesday">Wednesday</option>' +
+          '<option value="Thursday">Thursday</option>' +
+          '<option value="Friday">Friday</option>' +
+          '<option value="Saturday">Saturday</option>' +
+          '<option value="Sunday">Sunday</option>' +
+          "</select>" +
+          "</div>" +
+          '<div class="form-group col-md-2">' +
+          '<input type="time" class="form-control preferredShiftStart" />' +
+          "</div>" +
+          '<div class="form-group col-md-2">' +
+          '<input type="time" class="form-control preferredShiftEnd" />' +
+          "</div>" +
+          "</div>"
+      );
+
+      // Setting selected preferred shift and time
+      $(".preferredShift")
+        .last()
+        .val(employee.preferredShifts[i].dayOfWeek);
+      $(".preferredShiftStart")
+        .last()
+        .val(employee.preferredShifts[i].startTime);
+      $(".preferredShiftEnd")
+        .last()
+        .val(employee.preferredShifts[i].endTime);
+    }
+  }
+});
+
+$("updateEmployee").on("click", e => {
+  // Get data from form
+  // Send data to main process
 });
