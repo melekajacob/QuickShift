@@ -47,13 +47,25 @@ $(document).ready(() => {
           getStringOfSkills(employee.secondarySkills) +
           "</div>" +
           "<div>" +
-          '<a class="btn btn-warning mt-3 mb-1 text-white">Show Details/Update</a>' +
-          '<a class="btn btn-danger text-white">Delete Employee</a>' +
+          "<a id=" +
+          employee._id +
+          ' class="showEmployee btn btn-warning mt-3 mb-1 text-white ">Show Details/Update</a>' +
+          "<a id=" +
+          employee._id +
+          ' class="btn btn-danger text-white deleteEmployee">Delete Employee</a>' +
           "</div>" +
           "</div>" +
           "</div>" +
           "</div>"
       );
     });
+  });
+
+  $(document).on("click", "a.showEmployee", e => {
+    // Getting the id of the employee
+    var id = e.target.id;
+
+    // Sending id to main process
+    ipcRenderer.send("showEmployeeRequest", id);
   });
 });

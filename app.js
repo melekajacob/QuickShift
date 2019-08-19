@@ -45,23 +45,39 @@ ipcMain.on("newEmployee", (e, newEmployee) => {
       console.log(err);
     } else {
       console.log(newEmployee);
+      mainWindow.loadFile("./views/employeeList.html");
     }
   });
 });
 
-// Listens for new employee list 
-ipcMain.on("employeeList", (e) => {
+// Listens for new employee list
+ipcMain.on("employeeList", e => {
   employeeDB.find({}, (err, employees) => {
-    if(err) {
-      console.log(err)
-    }
-    else {
+    if (err) {
+      console.log(err);
+    } else {
       // Replying to renderer process with full list of employees
-      e.reply("employeeListReply", employees)
+      e.reply("employeeListReply", employees);
     }
-    
-  })
-})
+  });
+});
+
+// Listens for the showing of a new employee
+ipcMain.on("showEmployeeRequest", (e, id) => {
+  console.log("ID: " + id);
+  // Retrieving employee from database
+  employeeDB.findOne({ _id: id }, (err, employee) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(employee);
+      mainWindow.loadFile("./views/show.html");
+      mainWindow.webContents.on("did-finish-load", () => {
+        mainWindow.webContents.send("showEmployee", employee);
+      });
+    }
+  });
+});
 
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on("window-all-closed", () => {
