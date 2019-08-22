@@ -7,13 +7,13 @@ const fs = require("fs");
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-console.log(app.getPath("userData"));
-
 // Initializing employee datastore (employee collection)
 var employeeDB = new Datastore({
   filename: app.getPath("userData") + "/employees.db",
   autoload: true
 });
+
+// employeeDB.remove({}, { multi: true }, (err, employees) => {});
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
@@ -27,7 +27,7 @@ function createWindow() {
   mainWindow.loadFile("./views/home.html");
 
   // Open DevTools - Remove for PRODUCTION!
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
   mainWindow.on("closed", () => {
@@ -44,6 +44,7 @@ ipcMain.on("newEmployee", (e, newEmployee) => {
     if (err) {
       console.log(err);
     } else {
+      console.log("====NEW EMPLOYEE INFO====");
       console.log(newEmployee);
       mainWindow.loadFile("./views/employeeList.html");
     }
@@ -64,17 +65,51 @@ ipcMain.on("employeeList", e => {
 
 // Listens for the showing of a new employee
 ipcMain.on("showEmployeeRequest", (e, id) => {
-  console.log("ID: " + id);
   // Retrieving employee from database
   employeeDB.findOne({ _id: id }, (err, employee) => {
     if (err) {
-      console.log(err);
+      console.log("ERROR OCCURRED DURING SHOWING:" + err);
     } else {
-      console.log(employee);
       mainWindow.loadFile("./views/show.html");
       mainWindow.webContents.on("did-finish-load", () => {
         mainWindow.webContents.send("showEmployee", employee);
       });
+    }
+  });
+});
+
+// Listens for an update to an employee
+ipcMain.on("updateEmployee", (e, updatedEmployee) => {
+  employeeDB.update(
+    { _id: updatedEmployee.id },
+    updatedEmployee.updatedEmployee,
+    {},
+    (err, numReplaced) => {
+      if (err) {
+        console.log("ERROR OCCURRED DURING UPDATING:" + err);
+      } else {
+        console.log("=====NUM REPLACED:=====");
+        console.log(numReplaced);
+
+        console.log("=====UPDATED EMPLOYEE:=====");
+        console.log(updatedEmployee.updatedEmployee);
+
+        mainWindow.loadFile("./views/employeeList.html");
+      }
+    }
+  );
+});
+
+// Deleting an employee
+ipcMain.on("deleteEmployeeRequest", (e, id) => {
+  employeeDB.remove({ _id: id }, {}, (err, numRemoved) => {
+    if (err) {
+      console.log("ERROR DURING DELETION: " + err);
+    } else {
+      console.log("DELETE SUCCESSFUL");
+
+      // Routing back to the list of employees
+      mainWindow.loadFile("./views/employeeList.html");
     }
   });
 });

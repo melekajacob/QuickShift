@@ -1,4 +1,6 @@
 // Allows for employees to be retrieved from database and loaded into page
+// v2 Additions: 
+// 1: Add confirmation of deletion and logic associated with it 
 
 // Importing ipcRenderer to allow for communication with main process
 const { ipcRenderer } = require("electron");
@@ -67,5 +69,13 @@ $(document).ready(() => {
 
     // Sending id to main process
     ipcRenderer.send("showEmployeeRequest", id);
+  });
+
+  $(document).on("click", "a.deleteEmployee", e => {
+    // Getting the id of the employee
+    var id = e.target.id;
+
+    // Sending id to main process
+    ipcRenderer.send("deleteEmployeeRequest", id);
   });
 });

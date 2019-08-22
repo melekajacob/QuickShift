@@ -13,14 +13,12 @@ const { ipcRenderer } = require("electron");
 // /* global $ */
 
 // Functions to allow data to be retrieved from form
-const retrieveList = require("../public/javascript/classLibrary.js")
-  .retrieveList;
+const classLibrary = require("../public/javascript/classLibrary.js");
+const retrieveList = classLibrary.retrieveList;
 
-const retrieveListFromDays = require("../public/javascript/classLibrary.js")
-  .retrieveListFromDays;
+const retrieveListFromDays = classLibrary.retrieveListFromDays;
 
-const retrieveListFromProlonged = require("../public/javascript/classLibrary.js")
-  .retrieveListFromProlonged;
+const retrieveListFromProlonged = classLibrary.retrieveListFromProlonged;
 
 $(document).ready(() => {
   // Sets the datepicker on the input
