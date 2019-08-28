@@ -50,6 +50,13 @@ module.exports = {
     return valuesInList;
   },
 
+  getOpeningHours: dayOfWeek => {
+    return {
+      openingTime: $("." + dayOfWeek + "OpeningTime").val(),
+      closingTime: $("." + dayOfWeek + "ClosingTime").val()
+    };
+  },
+
   removeExcessInputs: listOfClassNames => {
     listOfClassNames.forEach(className => {
       var obj = $("." + className);
@@ -110,5 +117,56 @@ module.exports = {
       "preferredShiftStart",
       "preferredShiftEnd"
     ]);
+  },
+
+  retrieveListFromShifts: dayOfWeek => {
+    var shiftsInList = [];
+
+    // Didnt use arrow func. b/c of jquery bug
+    $("." + dayOfWeek + "RequiredSkill").each(function(i, obj) {
+      if ($(this).val() != "" && $(this).val() != " ") {
+        var shift = {
+          requiredSkill: $(this).val(),
+          startTime: $("." + dayOfWeek + "ShiftStart")
+            .eq(i)
+            .val(),
+          endTime: $("." + dayOfWeek + "ShiftEnd")
+            .eq(i)
+            .val()
+        };
+
+        shiftsInList.push(shift);
+      }
+    });
+
+    return shiftsInList;
+  },
+
+  retrieveListFromSpecialShifts: () => {
+    var specialShiftsInList = [];
+
+    $(".specialShiftDate").each(function(i, obj) {
+      if ($(this).val() != "" && $(this).val() != " ") {
+        var specialShift = {
+          date: $(this).val(),
+          requiredSkill: $(".specialShiftRequiredSkill")
+            .eq(i)
+            .val(),
+          startTime: $(".specialShiftStart")
+            .eq(i)
+            .val(),
+          endTime: $(".specialShiftEnd")
+            .eq(i)
+            .val()
+        };
+        specialShiftsInList.push(specialShift);
+      }
+    });
+
+    return specialShiftsInList;
+  },
+
+  capitalize: string => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 };

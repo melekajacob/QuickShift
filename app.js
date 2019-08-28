@@ -13,7 +13,15 @@ var employeeDB = new Datastore({
   autoload: true
 });
 
-// employeeDB.remove({}, { multi: true }, (err, employees) => {});
+var shiftDB = new Datastore({
+  filename: app.getPath("userData") + "/shifts.db",
+  autoload: true
+});
+
+var businessInfoDB = new Datastore({
+  filename: app.getPath("userData") + "/businessInfo.db",
+  autoload: true
+});
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
@@ -112,6 +120,43 @@ ipcMain.on("deleteEmployeeRequest", (e, id) => {
       mainWindow.loadFile("./views/employeeList.html");
     }
   });
+});
+
+// Updating shifts
+ipcMain.on("updateShifts", (e, shifts) => {
+  shiftDB.update({}, shifts, { upsert: true }, (err, numReplaced) => {
+    if (err) {
+      console.log("ERROR UPDATING SHIFT: " + err);
+    } else {
+      e.reply("updateShiftsReply", "Shift Update was Successful");
+    }
+  });
+});
+
+// Getting existing shifts
+ipcMain.on("getShiftRequest", e => {
+  shiftDB.findOne({}, (err, shifts) => {
+    e.reply("getShiftResponse", shifts);
+  });
+});
+
+// Updating Business information
+ipcMain.on("updateBusinessInfo", (e, businessInfo) => {
+  businessInfoDB.update(
+    {},
+    businessInfo,
+    { upsert: true },
+    (err, numReplaced) => {
+      if (err) {
+        console.log("ERROR UPDATING BUSINESS INFO: " + err);
+      } else {
+        e.reply(
+          "updateBusinessInfoResponse",
+          "Business Information Update was Successful"
+        );
+      }
+    }
+  );
 });
 
 // Quit when all windows are closed - (Not macOS - Darwin)
