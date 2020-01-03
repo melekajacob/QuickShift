@@ -15,10 +15,12 @@ const { ipcRenderer } = require("electron");
 // Functions to allow data to be retrieved from form
 const classLibrary = require("../public/javascript/classLibrary.js");
 const retrieveList = classLibrary.retrieveList;
-
 const retrieveListFromDays = classLibrary.retrieveListFromDays;
-
 const retrieveListFromProlonged = classLibrary.retrieveListFromProlonged;
+const fillSkills = classLibrary.fillSkills;
+
+// get skills
+skills = ipcRenderer.sendSync("getBusinessInfoSync").skills;
 
 $(document).ready(() => {
   // Sets the datepicker on the input
@@ -26,6 +28,23 @@ $(document).ready(() => {
     todayHighlight: true,
     autoclose: true
   });
+
+  // Filling skills for specific business
+  length = $(".primarySkills option").length;
+  if (length - 1 < skills.length) {
+    lst = ["primary", "secondary"];
+
+    lst.forEach(item => {
+      skills.forEach(skill => {
+        $("." + item + "Skills").append(
+          $("<option/>", {
+            value: skill,
+            text: skill
+          })
+        );
+      });
+    });
+  }
 
   //======================
   // FORM FUNCTIONALITY
@@ -47,13 +66,7 @@ $(document).ready(() => {
         '<option selected disable hidden value=""' +
         ">Select Primary Skills</option" +
         ">" +
-        '<option value="Prescription Processing"' +
-        ">Prescription Processing</option" +
-        ">" +
-        '<option value="Medication Counting"' +
-        ">Medication Counting</option" +
-        ">" +
-        '<option value="Cashier">Cashier</option>' +
+        fillSkills(skills) +
         "</select>" +
         "</div>" +
         "</div>"
@@ -85,13 +98,7 @@ $(document).ready(() => {
         '<option selected disable hidden value=""' +
         ">Select Secondary Skills</option" +
         ">" +
-        '<option value="Prescription Processing"' +
-        ">Prescription Processing</option" +
-        ">" +
-        '<option value="Medication Counting"' +
-        ">Medication Counting</option" +
-        ">" +
-        '<option value="Cashier">Cashier</option>' +
+        fillSkills(skills) +
         "</select>" +
         "</div>" +
         "</div>"

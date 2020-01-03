@@ -10,8 +10,34 @@ const retrieveListFromShifts = classLibrary.retrieveListFromShifts;
 const retrieveListFromSpecialShifts =
   classLibrary.retrieveListFromSpecialShifts;
 const capitalize = classLibrary.capitalize;
+const fillSkills = classLibrary.fillSkills;
+
+// get skills
+skills = ipcRenderer.sendSync("getBusinessInfoSync").skills;
 
 $(document).ready(() => {
+  // Filling skills for specific business
+  weekdays = [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday"
+  ];
+
+  weekdays.forEach(day => {
+    skills.forEach(skill => {
+      $("." + day + "RequiredSkill").append(
+        $("<option/>", {
+          value: skill,
+          text: skill
+        })
+      );
+    });
+  });
+
   // Sets the datepicker on the input
   $(".input-group.date").datepicker({
     todayHighlight: true,
@@ -36,11 +62,7 @@ $(document).ready(() => {
         '<div class="form-group col-md-12 px-0 mx-0">' +
         '<select class="form-control mondayRequiredSkill px-0 mx-0">' +
         '<option selected disable hidden value="">Required Skill</option>' +
-        '<option value="Prescription Processing"' +
-        ">Prescription Processing</option" +
-        ">" +
-        '<option value="Medication Counting">Medication Counting</option>' +
-        '<option value="Cashier">Cashier</option>' +
+        fillSkills(skills) +
         "</select>" +
         "</div>" +
         '<div class="form-group col-md-12">' +
@@ -102,11 +124,7 @@ $(document).ready(() => {
         '<div class="form-group col-md-12 px-0 mx-0">' +
         '<select class="form-control tuesdayRequiredSkill px-0 mx-0">' +
         '<option selected disable hidden value="">Required Skill</option>' +
-        '<option value="Prescription Processing"' +
-        ">Prescription Processing</option" +
-        ">" +
-        '<option value="Medication Counting">Medication Counting</option>' +
-        '<option value="Cashier">Cashier</option>' +
+        fillSkills(skills) +
         "</select>" +
         "</div>" +
         '<div class="form-group col-md-12">' +
@@ -168,11 +186,7 @@ $(document).ready(() => {
         '<div class="form-group col-md-12 px-0 mx-0">' +
         '<select class="form-control wednesdayRequiredSkill px-0 mx-0">' +
         '<option selected disable hidden value="">Required Skill</option>' +
-        '<option value="Prescription Processing"' +
-        ">Prescription Processing</option" +
-        ">" +
-        '<option value="Medication Counting">Medication Counting</option>' +
-        '<option value="Cashier">Cashier</option>' +
+        fillSkills(skills) +
         "</select>" +
         "</div>" +
         '<div class="form-group col-md-12">' +
@@ -234,11 +248,7 @@ $(document).ready(() => {
         '<div class="form-group col-md-12 px-0 mx-0">' +
         '<select class="form-control thursdayRequiredSkill px-0 mx-0">' +
         '<option selected disable hidden value="">Required Skill</option>' +
-        '<option value="Prescription Processing"' +
-        ">Prescription Processing</option" +
-        ">" +
-        '<option value="Medication Counting">Medication Counting</option>' +
-        '<option value="Cashier">Cashier</option>' +
+        fillSkills(skills) +
         "</select>" +
         "</div>" +
         '<div class="form-group col-md-12">' +
@@ -300,11 +310,7 @@ $(document).ready(() => {
         '<div class="form-group col-md-12 px-0 mx-0">' +
         '<select class="form-control fridayRequiredSkill px-0 mx-0">' +
         '<option selected disable hidden value="">Required Skill</option>' +
-        '<option value="Prescription Processing"' +
-        ">Prescription Processing</option" +
-        ">" +
-        '<option value="Medication Counting">Medication Counting</option>' +
-        '<option value="Cashier">Cashier</option>' +
+        fillSkills(skills) +
         "</select>" +
         "</div>" +
         '<div class="form-group col-md-12">' +
@@ -366,11 +372,7 @@ $(document).ready(() => {
         '<div class="form-group col-md-12 px-0 mx-0">' +
         '<select class="form-control saturdayRequiredSkill px-0 mx-0">' +
         '<option selected disable hidden value="">Required Skill</option>' +
-        '<option value="Prescription Processing"' +
-        ">Prescription Processing</option" +
-        ">" +
-        '<option value="Medication Counting">Medication Counting</option>' +
-        '<option value="Cashier">Cashier</option>' +
+        fillSkills(skills) +
         "</select>" +
         "</div>" +
         '<div class="form-group col-md-12">' +
@@ -432,11 +434,7 @@ $(document).ready(() => {
         '<div class="form-group col-md-12 px-0 mx-0">' +
         '<select class="form-control sundayRequiredSkill px-0 mx-0">' +
         '<option selected disable hidden value="">Required Skill</option>' +
-        '<option value="Prescription Processing"' +
-        ">Prescription Processing</option" +
-        ">" +
-        '<option value="Medication Counting">Medication Counting</option>' +
-        '<option value="Cashier">Cashier</option>' +
+        fillSkills(skills) +
         "</select>" +
         "</div>" +
         '<div class="form-group col-md-12">' +
@@ -517,11 +515,7 @@ $(document).ready(() => {
         '<div class="form-group col-md-3">' +
         '<select class="form-control specialShiftRequiredSkill">' +
         '<option selected disable hidden value="">Required Skill</option>' +
-        '<option value="Prescription Processing"' +
-        ">Prescription Processing</option" +
-        ">" +
-        '<option value="Medication Counting">Medication Counting</option>' +
-        '<option value="Cashier">Cashier</option>' +
+        fillSkills(skills) +
         "</select>" +
         "</div>" +
         '<div class="form-group col-md-2">' +

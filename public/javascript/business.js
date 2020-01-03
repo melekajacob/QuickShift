@@ -78,7 +78,45 @@ $(document).ready(() => {
     alert(msg);
   });
 
-   // ==============================
+  // ==============================
   // Checking if any existing business information and insert
   // ==============================
+  ipcRenderer.send("getBusinessInfo");
+
+  // Adding existing business info
+  ipcRenderer.on("businessInfoReply", (e, businessInfo) => {
+    
+    // for each business skill...
+    businessInfo.skills.forEach(skill => {
+      // click for new business skill
+      $("#addBusinessSkill").trigger("click");
+
+      // add new business skill
+      $(".businessSkill")
+        .last()
+        .val(skill);
+    });
+
+    // Set opening hours for each day
+    $(".mondayOpeningTime").val(businessInfo.monday.openingTime);
+    $(".mondayClosingTime").val(businessInfo.monday.closingTime);
+
+    $(".tuesdayOpeningTime").val(businessInfo.tuesday.openingTime);
+    $(".tuesdayClosingTime").val(businessInfo.tuesday.closingTime);
+
+    $(".wednesdayOpeningTime").val(businessInfo.wednesday.openingTime);
+    $(".wednesdayClosingTime").val(businessInfo.wednesday.closingTime);
+
+    $(".thursdayOpeningTime").val(businessInfo.thursday.openingTime);
+    $(".thursdayClosingTime").val(businessInfo.thursday.closingTime);
+
+    $(".fridayOpeningTime").val(businessInfo.friday.openingTime);
+    $(".fridayClosingTime").val(businessInfo.friday.closingTime);
+
+    $(".saturdayOpeningTime").val(businessInfo.saturday.openingTime);
+    $(".saturdayClosingTime").val(businessInfo.saturday.closingTime);
+
+    $(".sundayOpeningTime").val(businessInfo.sunday.openingTime);
+    $(".sundayClosingTime").val(businessInfo.sunday.closingTime);
+  });
 });

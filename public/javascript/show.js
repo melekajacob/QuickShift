@@ -3,6 +3,7 @@
 const removeExcessInputs = classLibrary.removeExcessInputs;
 const resetForm = classLibrary.resetForm;
 
+
 ipcRenderer.on("showEmployee", (e, employee) => {
   resetForm(removeExcessInputs);
 
@@ -34,13 +35,7 @@ ipcRenderer.on("showEmployee", (e, employee) => {
           '<option selected disable hidden value=""' +
           ">Select Primary Skills</option" +
           ">" +
-          '<option value="Prescription Processing"' +
-          ">Prescription Processing</option" +
-          ">" +
-          '<option value="Medication Counting"' +
-          ">Medication Counting</option" +
-          ">" +
-          '<option value="Cashier">Cashier</option>' +
+          fillSkills(skills) +
           "</select>" +
           "</div>" +
           "</div>"
@@ -68,13 +63,7 @@ ipcRenderer.on("showEmployee", (e, employee) => {
           '<option selected disable hidden value=""' +
           ">Select Secondary Skills</option" +
           ">" +
-          '<option value="Prescription Processing"' +
-          ">Prescription Processing</option" +
-          ">" +
-          '<option value="Medication Counting"' +
-          ">Medication Counting</option" +
-          ">" +
-          '<option value="Cashier">Cashier</option>' +
+          fillSkills(skills) +
           "</select>" +
           "</div>" +
           "</div>"

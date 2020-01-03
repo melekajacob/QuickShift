@@ -159,6 +159,22 @@ ipcMain.on("updateBusinessInfo", (e, businessInfo) => {
   );
 });
 
+// Showing existing business information
+ipcMain.on("getBusinessInfo", e => {
+  businessInfoDB.findOne({}, (err, businessInfo) => {
+    e.reply("businessInfoReply", businessInfo);
+  });
+});
+
+// Showing existing business information
+ipcMain.on("getBusinessInfoSync", e => {
+  businessInfoDB.findOne({}, (err, businessInfo) => {
+    if (err) e.returnValue = [];
+
+    e.returnValue = businessInfo;
+  });
+});
+
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();

@@ -1,6 +1,6 @@
 // Allows for employees to be retrieved from database and loaded into page
-// v2 Additions: 
-// 1: Add confirmation of deletion and logic associated with it 
+// v2 Additions:
+// 1: Add confirmation of deletion and logic associated with it
 
 // Importing ipcRenderer to allow for communication with main process
 const { ipcRenderer } = require("electron");
