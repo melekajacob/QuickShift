@@ -60,7 +60,7 @@ function createTable(week, startDateLabelling, daysOfWeek) {
       var name = employee.firstName + " " + employee.lastName;
       $("#week" + i + "Body").append('<tr>' + '<th>' + name + '</th>');
 
-      
+
 
       // looping through and just adding information for individual employees
       daysOfWeek.forEach((day) => {
@@ -127,7 +127,7 @@ $(document).ready(() => {
 
     // loop through each week
     for (var i = 0; i < weekDiff; ++i) {
-      
+
 
       // get shift requirements for each day of the week
       var shiftRequirements = shifts;
@@ -146,7 +146,7 @@ $(document).ready(() => {
           // remove anyone that does not have room for shift
           // LEFT OFF HERE 
           pool = checkPool(shift, pool);
-          
+
           // check most qualified out of the remaining employees
           // if tie, check if any below minimum
           // if tie, preferences of each employee
