@@ -34,7 +34,7 @@ function createWindow() {
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("./views/home.html");
 
-  // Open DevTools - Remove for PRODUCTION!
+  // // Open DevTools - Remove for PRODUCTION!
   // mainWindow.webContents.openDevTools();
 
   // Listen for window being closed
@@ -67,6 +67,17 @@ ipcMain.on("employeeList", e => {
     } else {
       // Replying to renderer process with full list of employees
       e.reply("employeeListReply", employees);
+    }
+  });
+});
+
+// Synchronous message for employee list
+ipcMain.on("employeeListSync", e => {
+  employeeDB.find({}, (err, employees) => {
+    if (err) {
+      e.returnValue = [];
+    } else {
+      e.returnValue = employees;
     }
   });
 });
@@ -136,7 +147,22 @@ ipcMain.on("updateShifts", (e, shifts) => {
 // Getting existing shifts
 ipcMain.on("getShiftRequest", e => {
   shiftDB.findOne({}, (err, shifts) => {
+    if (err) {
+      console.log("ERROR OCCURRED!!");
+      console.log(err);
+    }
     e.reply("getShiftResponse", shifts);
+  });
+});
+
+// Synchronous for getting existing shifts
+ipcMain.on("getShiftRequestSync", e => {
+  shiftDB.findOne({}, (err, shifts) => {
+    if (err) {
+      e.returnValue = [];
+    } else {
+      e.returnValue = shifts;
+    }
   });
 });
 

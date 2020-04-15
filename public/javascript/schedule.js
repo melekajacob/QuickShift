@@ -3,35 +3,91 @@ const { ipcRenderer } = require("electron");
 const moment = require("moment");
 
 // get employees
-employee = ipcRenderer.sendSync("employeeList");
+employees = ipcRenderer.sendSync("employeeListSync");
 
 // get required shifts
-shifts = ipcRenderer.sendSync("getShiftRequest");
+shifts = ipcRenderer.sendSync("getShiftRequestSync");
 
 // Creates table template we will work with
-function createTable(week) {
-  $("#schedule").append(
-    '<div class="table-responsive">' +
-      '<table class="table table-bordered table' +
-      week +
-      ">" +
-      "<thead>" +
-      "<tr>" +
-      '<th scope="col">Employee</th>' +
-      '<th id="monday" scope="col">Monday</th>' +
-      '<th id="tuesday" scope="col">Tuesday</th>' +
-      '<th id="wednesday" scope="col">Wednesday</th>' +
-      '<th id="thursday" scope="col">Thursday</th>' +
-      '<th id="friday" scope="col">Friday</th>' +
-      '<th id="saturday" scope="col">Saturday</th>' +
-      '<th id="sunday" scope="col">Sunday</th>' +
-      "</tr>" +
-      "</thead>" +
-      "</table>" +
-      "</div>"
-  );
+function createTable(week, startDateLabelling, daysOfWeek) {
+  currDate = startDateLabelling;
 
-  //$(".table" + week).append();
+  for (i = 0; i < week; ++i) {
+    var weekNumBody = "week" + i + "Body";
+
+
+    $("#schedule").append(
+      '<div class="table-responsive">' +
+      '<table class="table table-bordered">' +
+      '<thead>' +
+      '<tr>' +
+      '<th scope="col">Employee</th>' +
+      '<th id="monday" scope="col">' +
+      'Monday, ' + currDate.add(0, 'days').format("MMM Do") +
+      '</th>' +
+      '<th id="tuesday" scope="col">' +
+      'Tuesday, ' + currDate.add(1, 'days').format("MMM Do") +
+      '</th>' +
+      '<th id="wednesday" scope="col">' +
+      'Wednesday, ' + currDate.add(1, 'days').format("MMM Do") +
+      '</th>' +
+      '<th id="thursday" scope="col">' +
+      'Thursday, ' + currDate.add(1, 'days').format("MMM Do") +
+      '</th>' +
+      '<th id="friday" scope="col">' +
+      'Friday, ' + currDate.add(1, 'days').format("MMM Do") +
+      '</th>' +
+      '<th id="saturday" scope="col">' +
+      'Saturday, ' + currDate.add(1, 'days').format("MMM Do") +
+      '</th>' +
+      '<th id="sunday" scope="col">' +
+      'Sunday, ' + currDate.add(1, 'days').format("MMM Do") +
+      '</th>' +
+      '</tr>' +
+      '</thead>' +
+      '<tbody id=' + weekNumBody + '></tbody>' +
+      '</table>' +
+      '</div>'
+    );
+
+    // Adding date for next week
+    currDate.add(1, 'days');
+
+
+    // Adding each employee to the table
+    employees.forEach((employee) => {
+      // Adding name column
+      var name = employee.firstName + " " + employee.lastName;
+      $("#week" + i + "Body").append('<tr>' + '<th>' + name + '</th>');
+
+      
+
+      // looping through and just adding information for individual employees
+      daysOfWeek.forEach((day) => {
+
+        contentId = employee.firstName + employee.lastName + i + day;
+
+        $("#week" + i + "Body tr:last").append(
+          '<td>' +
+          '<input' +
+          ' type="time"' +
+          ' class="form-control startTime ' + contentId +
+          ' "/>' +
+
+          '<input' +
+          ' type="time"' +
+          ' class="form-control endTime ' + contentId +
+          ' "/>' +
+
+          '<h5 class="text-center ' + contentId + 'Pos"></h5>' +
+          '</td>'
+        );
+      })
+
+      $("#week" + i + "Body").append('</tr>');
+
+    });
+  }
 }
 
 // get the week number a date is in
@@ -44,17 +100,16 @@ function getWeekDiff(startDate, endDate) {
   return getWeek(endDate) - getWeek(startDate) + 1;
 }
 
-// checks if date overlaps
-// function isOverlap(startDate, endDate, checkDate);
-
 $(document).ready(() => {
+  const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
   // Sets the datepicker on the input
   $(".input-group.date").datepicker({
     todayHighlight: true,
-    autoclose: true
+    autoclose: true,
   });
 
-  $("#createSchedule").on("click", e => {
+  $("#createSchedule").on("click", (e) => {
     // define start date and end date
     startDate = $(".scheduleStart").val();
     endDate = $(".scheduleEnd").val();
@@ -62,25 +117,46 @@ $(document).ready(() => {
     // find number of weeks needed to display
     weekDiff = getWeekDiff(startDate, endDate);
 
-    // create that number of tables
-    createTable(1);
-    // find first day using the day of the week
-    // count up labelling the days until you reach the last day
-    // OPTIONAL: Label unneeded dates of days
+
+    // Figure out when to startlabelling
+    startDateLabelling = moment(startDate).startOf("isoWeek");
+    endDateLabelling = moment(endDate).endOf("isoWeek");
+
+    // creating a table for each week
+    createTable(weekDiff, startDateLabelling, daysOfWeek);
 
     // loop through each week
-    // create pool of employees (randomize)
-    // get shift requirements for each day of the week
-    // remove any unavailable people
-    // remove anyone that does not have the required skills
-    // remove anyone that does not have room for shift
+    for (var i = 0; i < weekDiff; ++i) {
+      
 
-    // check most qualified out of the remaining employees
-    // if tie, check if any below minimum
-    // if tie, preferences of each employee
-    // if tie, pick random
-    // (if not tie, fill shift)
-    // if no option, give warning
-    // if one option, fill shift
+      // get shift requirements for each day of the week
+      var shiftRequirements = shifts;
+
+      // console.log({ pool, shiftRequirements });
+
+      // loop through each day of week and then loop through shift requirements(dont forget special shift requirements)
+      daysOfWeek.forEach((day) => {
+        shiftRequirements[day].forEach((shift) => {
+
+          // create pool of employees (randomize)
+          var pool = employees;
+
+          // remove any unavailable people
+          // remove anyone that does not have the required skills
+          // remove anyone that does not have room for shift
+          // LEFT OFF HERE 
+          pool = checkPool(shift, pool);
+          
+          // check most qualified out of the remaining employees
+          // if tie, check if any below minimum
+          // if tie, preferences of each employee
+          // if tie, pick random
+          // (if not tie, fill shift)
+          // if no option, give warning
+          // if one option, fill shift
+          allocateShift(shift, pool);
+        })
+      })
+    }
   });
 });
