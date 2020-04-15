@@ -1,8 +1,5 @@
-# pharmacyScheduler
+# QuickShift
 
-#COLOR PALETTE
-#0B0C10
-#1F2833
-#C5C6C7
-#66FCF1
-#45A29E
+Cross-platform application that allows business owners to automatically generate shift schedules
+
+
