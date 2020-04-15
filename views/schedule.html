@@ -1,234 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Schedule</title>
 
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-      integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
-      crossorigin="anonymous"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <title>Schedule</title>
 
-    <!-- Importing custom stylesheet -->
-    <link rel="stylesheet" href="../public/stylesheets/main.css" />
-    <link
-      href="../node_modules/@fortawesome/fontawesome-free/css/all.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
 
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.js"
-      integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
-      crossorigin="anonymous"
-    ></script>
+  <!-- Importing custom stylesheet -->
+  <link rel="stylesheet" href="../public/stylesheets/main.css" />
+  <link href="../node_modules/@fortawesome/fontawesome-free/css/all.css" rel="stylesheet" type="text/css" />
 
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"
-    ></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.js"
+    integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI=" crossorigin="anonymous"></script>
 
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
-    />
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
-    ></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-    <!-- Importing external javascript -->
-    <script src="../public/javascript/schedule.js"></script> 
-  </head>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
-  <body class="bg-default px-0">
-    <header class="bg-primary text-center py-5 mb-0">
-      <div class="container">
-        <h1 class="font-weight-light text-white display-4">
-          Shift Scheduling
-        </h1>
-        <a href="home.html" class="btn btn-danger mr-5">Go Back</a>
-        <a class="btn btn-warning" id="saveSchedule">Save Schedule</a>
+  <!-- Importing external javascript -->
+  <script src="../public/javascript/schedule.js"></script>
+</head>
+
+<body class="bg-default px-0">
+  <header class="bg-primary text-center py-5 mb-0">
+    <div class="container">
+      <h1 class="font-weight-light text-white display-4">
+        Shift Scheduling
+      </h1>
+      <a href="home.html" class="btn btn-danger mr-5">Go Back</a>
+      <a class="btn btn-warning" id="saveSchedule">Save Schedule</a>
+    </div>
+  </header>
+
+  <div class="container mt-2 p-0">
+    <div class="form-row">
+      <div class="col-md-5">
+        <label for="scheduleStart">Start Date</label>
       </div>
-    </header>
-
-    <div class="container mt-2 p-0">
-      <div class="form-row">
-        <div class="col-md-5">
-          <label for="scheduleStart">Start Date</label>
-        </div>
-        <div class="col-md-5">
-          <label for="scheduleEnd">End Date</label>
-        </div>
-      </div>
-
-      <div id="scheduleSection">
-        <div class="form-row">
-          <div class="form-group col-md-5">
-            <div class="input-group date">
-              <input type="text" class="form-control dateInput scheduleStart" />
-              <div class="input-group-append">
-                <span class="input-group-text" id="calenderIcon"
-                  ><i class="fas fa-calendar-alt"></i
-                ></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group col-md-5">
-            <div class="input-group date">
-              <input
-                type="text"
-                class="form-control dateInput scheduleEnd"
-                aria-describedby="calenderIcon"
-              />
-              <div class="input-group-append">
-                <span class="input-group-text" id="calenderIcon"
-                  ><i class="fas fa-calendar-alt"></i
-                ></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group col-md-2">
-            <button class="btn btn-primary" type="button" id="createSchedule">
-              Create Schedule
-            </button>
-          </div>
-         
-          <div class="container" id="schedule">
-            <div class="table-responsive">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th scope="col">Employee</th>
-                    <th id="monday" scope="col">Monday</th>
-                    <th id="tuesday" scope="col">Tuesday</th>
-                    <th id="wednesday" scope="col">Wednesday</th>
-                    <th id="thursday" scope="col">Thursday</th>
-                    <th id="friday" scope="col">Friday</th>
-                    <th id="saturday" scope="col">Saturday</th>
-                    <th id="sunday" scope="col">Sunday</th>
-                  </tr>
-                </thead>
-
-                <tbody id="scheduleBody">
-                  <tr>
-                    <th>Jacob Meleka</th>
-                    <td>
-                      <input
-                        type="time"
-                        class="form-control startTime emp1week1monday"
-                      />
-                      <input
-                        type="time"
-                        class="form-control endTime emp1week1monday"
-                      />
-
-                      <h5 class="text-center emp1week1mondayPos">Position</h5>
-                    </td>
-
-                    <td>
-                      <input
-                        type="time"
-                        class="form-control startTime emp1week1tuesday"
-                      />
-
-                      <input
-                        type="time"
-                        class="form-control endTime emp1week1tuesday"
-                      />
-
-                      <h5 class="text-center emp1week1tuesdayPos">Position</h5>
-                    </td>
-
-                    <td>
-                      <input
-                        type="time"
-                        class="form-control startTime emp1week1wednesday"
-                      />
-
-                      <input
-                        type="time"
-                        class="form-control endTime emp1week1wednesday"
-                      />
-
-                      <h5 class="text-center emp1week1wednesdayPos">
-                        Position
-                      </h5>
-                    </td>
-
-                    <td>
-                      <input
-                        type="time"
-                        class="form-control startTime emp1week1thursday"
-                      />
-
-                      <input
-                        type="time"
-                        class="form-control endTime emp1week1thursday"
-                      />
-
-                      <h5 class="text-center emp1week1thursdayPos">Position</h5>
-                    </td>
-
-                    <td>
-                      <input
-                        type="time"
-                        class="form-control startTime emp1week1friday"
-                      />
-
-                      <input
-                        type="time"
-                        class="form-control endTime emp1week1friday"
-                      />
-
-                      <h5 class="text-center emp1week1fridayPos">Position</h5>
-                    </td>
-
-                    <td>
-                      <input
-                        type="time"
-                        class="form-control startTime emp1week1saturday"
-                      />
-
-                      <input
-                        type="time"
-                        class="form-control endTime emp1week1saturday"
-                      />
-
-                      <h5 class="text-center emp1week1saturdayPos">Position</h5>
-                    </td>
-
-                    <td>
-                      <input
-                        type="time"
-                        class="form-control startTime emp1week1sunday"
-                      />
-
-                      <input
-                        type="time"
-                        class="form-control endTime emp1week1sunday"
-                      />
-
-                      <h5 class="text-center emp1week1sundayPos">Position</h5>
-              
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+      <div class="col-md-5">
+        <label for="scheduleEnd">End Date</label>
       </div>
     </div>
-  </body>
+
+    <div id="scheduleSection">
+      <div class="form-row">
+        <div class="form-group col-md-5">
+          <div class="input-group date">
+            <input type="text" class="form-control dateInput scheduleStart" />
+            <div class="input-group-append">
+              <span class="input-group-text" id="calenderIcon"><i class="fas fa-calendar-alt"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-5">
+          <div class="input-group date">
+            <input type="text" class="form-control dateInput scheduleEnd" aria-describedby="calenderIcon" />
+            <div class="input-group-append">
+              <span class="input-group-text" id="calenderIcon"><i class="fas fa-calendar-alt"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-2">
+          <button class="btn btn-primary" type="button" id="createSchedule">
+            Create Schedule
+          </button>
+        </div>
+
+        <div class="container" id="schedule"></div>
+
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
 </html>

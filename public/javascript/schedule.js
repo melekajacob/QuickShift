@@ -8,6 +8,50 @@ employees = ipcRenderer.sendSync("employeeListSync");
 // get required shifts
 shifts = ipcRenderer.sendSync("getShiftRequestSync");
 
+// Function to filter out employees that can't work the shift (alerts if shift cannot be filled)
+function checkPool(shift, pool, startDate, endDate) {
+  // remove any unavailable people
+  // remove anyone that does not have the required skills
+  // remove anyone that does not have room for shift
+  employeeList = pool;
+
+  pool.forEach((employee, i) => {
+
+    // LEFT OFF MAKING THESE HELPER FUNCTIONS!!!!
+    // removing employee who doesn't have the required skills
+    if (checkSkillMatch(employee.primarySkills.concat(employee.secondarySkills), shift.skill)) {
+      employeeList.splice(i, 1);
+      continue;
+    }
+
+    // Removing anyone without space for shift
+    if (checkSpace(employee.hoursWorked, employee.maxHoursPerWeek))
+
+      // Checking if prolonged unavailability overlaps with shift
+      employee.prolongedUnavailability.forEach((range) => {
+        // Converting everything to a moment object for ease
+        if (willOverlap(shift.date, shift.date, moment(range.startTime), moment(range.endTime))) {
+          employeeList.splice(i, 1); // removing employee
+          continue;
+        }
+      })
+
+
+    // Checking if dates unavailable matches date of shift
+    datesUnavailable.forEach((date) => {
+      if (moment(date) == shift.date) {
+        employeeList.splice(i, 1); // removing employee
+        continue;
+      }
+    })
+
+    // Checking if overlaps with days unavailable
+    daysUnavailable.forEach((day) => {
+
+    })
+  })
+}
+
 // Creates table template we will work with
 function createTable(week, startDateLabelling, daysOfWeek) {
   currDate = startDateLabelling;
@@ -90,6 +134,29 @@ function createTable(week, startDateLabelling, daysOfWeek) {
   }
 }
 
+// // Function to check if target timespan will overlap with a time frame
+// function timeOverlap(targetStartTime,targetEndTime, startTime, endTime) {
+//   // time of first timespan
+//   start_1 = targetStartTime.getTime();
+//   end_1 = targetEndTime.getTime();
+
+//   // time of second timespan
+//   start_2 = startTime.getTime();
+//   end_2 = end
+
+//   if (Math.min(start_1, end_1) <= Math.max(start_2, end_2) && Math.max(start_1, end_1) >= Math.min(start_2, end_2)) {
+//       // between
+//   }
+// }
+
+// Checks if two javascript dates ranges overlap
+function dateOverlap(a_start, a_end, b_start, b_end) {
+  if (a_start <= b_start && b_start <= a_end) return true; // b starts in a
+  if (a_start <= b_end && b_end <= a_end) return true; // b ends in a
+  if (b_start < a_start && a_end < b_end) return true; // a in b
+  return false;
+}
+
 // get the week number a date is in
 function getWeek(date) {
   return moment(date).format("W");
@@ -132,7 +199,7 @@ $(document).ready(() => {
       // get shift requirements for each day of the week
       var shiftRequirements = shifts;
 
-      // console.log({ pool, shiftRequirements });
+      console.log({ employees, shiftRequirements });
 
       // loop through each day of week and then loop through shift requirements(dont forget special shift requirements)
       daysOfWeek.forEach((day) => {
