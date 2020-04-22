@@ -4,22 +4,22 @@
   "description": "Automated Scheduling for Pharmacy Managers",
   "main": "app.js",
   "dependencies": {
-    "bootstrap": "^4.3.1",
+    "bootstrap": "^4.4.1",
     "bootstrap-datepicker": "^1.9.0",
-    "electron": "^7.1.7",
+    "electron": "^7.2.3",
     "electron-prebuilt": "^1.4.13",
-    "electron-rebuild": "^1.8.6",
+    "electron-rebuild": "^1.10.1",
     "fontawesome": "^5.6.3",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "moment": "^2.24.0",
-    "mongodb": "^3.3.0",
+    "mongodb": "^3.5.6",
     "mongojs": "^2.6.0",
-    "mongoose": "^5.6.9",
+    "mongoose": "^5.9.10",
     "nedb": "^1.8.0",
-    "node": "^12.6.0"
+    "node": "^12.16.2"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.10.1"
+    "@fortawesome/fontawesome-free": "^5.13.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

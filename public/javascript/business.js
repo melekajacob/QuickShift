@@ -77,7 +77,7 @@ $(document).ready(() => {
   ipcRenderer.on("updateBusinessInfoResponse", (e, msg) => {
     alert(msg);
   });
-
+                      
   // ==============================
   // Checking if any existing business information and insert
   // ==============================
