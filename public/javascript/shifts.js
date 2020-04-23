@@ -59,28 +59,28 @@ $(document).ready(() => {
     // Appending new required skill
     $("#mondayShiftSection").append(
       '<div class="form-row px-0 mx-0">' +
-        '<div class="form-group col-md-12 px-0 mx-0">' +
-        '<select class="form-control mondayRequiredSkill px-0 mx-0">' +
-        '<option selected disable hidden value="">Required Skill</option>' +
-        fillSkills(skills) +
-        "</select>" +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="mondayShiftStart">Start Time</label>' +
-        '<input type="time" class="form-control mondayShiftStart" />' +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="mondayShiftEnd">End Time</label>' +
-        '<input type="time" class="form-control mondayShiftEnd" />' +
-        "</div>" +
-        '<div class="form-group col-md-12 text-center">' +
-        '<button class="btn btn-danger removeShift">' +
-        "Remove Shift" +
-        "</button>" +
-        "</div>" +
-        "</div>" +
-        "<hr />" +
-        "</div>"
+      '<div class="form-group col-md-12 px-0 mx-0">' +
+      '<select class="form-control mondayRequiredSkill px-0 mx-0">' +
+      '<option selected disable hidden value="">Required Skill</option>' +
+      fillSkills(skills) +
+      "</select>" +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="mondayShiftStart">Start Time</label>' +
+      '<input type="time" class="form-control mondayShiftStart" />' +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="mondayShiftEnd">End Time</label>' +
+      '<input type="time" class="form-control mondayShiftEnd" />' +
+      "</div>" +
+      '<div class="form-group col-md-12 text-center">' +
+      '<button class="btn btn-danger removeShift">' +
+      "Remove Shift" +
+      "</button>" +
+      "</div>" +
+      "</div>" +
+      "<hr />" +
+      "</div>"
     );
 
     // Setting selected required shift
@@ -121,28 +121,28 @@ $(document).ready(() => {
     // Appending new required skill
     $("#tuesdayShiftSection").append(
       '<div class="form-row px-0 mx-0">' +
-        '<div class="form-group col-md-12 px-0 mx-0">' +
-        '<select class="form-control tuesdayRequiredSkill px-0 mx-0">' +
-        '<option selected disable hidden value="">Required Skill</option>' +
-        fillSkills(skills) +
-        "</select>" +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="tuesdayShiftStart">Start Time</label>' +
-        '<input type="time" class="form-control tuesdayShiftStart" />' +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="tuesdayShiftEnd">End Time</label>' +
-        '<input type="time" class="form-control tuesdayShiftEnd" />' +
-        "</div>" +
-        '<div class="form-group col-md-12 text-center">' +
-        '<button class="btn btn-danger removeShift">' +
-        "Remove Shift" +
-        "</button>" +
-        "</div>" +
-        "</div>" +
-        "<hr />" +
-        "</div>"
+      '<div class="form-group col-md-12 px-0 mx-0">' +
+      '<select class="form-control tuesdayRequiredSkill px-0 mx-0">' +
+      '<option selected disable hidden value="">Required Skill</option>' +
+      fillSkills(skills) +
+      "</select>" +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="tuesdayShiftStart">Start Time</label>' +
+      '<input type="time" class="form-control tuesdayShiftStart" />' +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="tuesdayShiftEnd">End Time</label>' +
+      '<input type="time" class="form-control tuesdayShiftEnd" />' +
+      "</div>" +
+      '<div class="form-group col-md-12 text-center">' +
+      '<button class="btn btn-danger removeShift">' +
+      "Remove Shift" +
+      "</button>" +
+      "</div>" +
+      "</div>" +
+      "<hr />" +
+      "</div>"
     );
 
     // Setting selected required shift
@@ -183,28 +183,28 @@ $(document).ready(() => {
     // Appending new required skill
     $("#wednesdayShiftSection").append(
       '<div class="form-row px-0 mx-0">' +
-        '<div class="form-group col-md-12 px-0 mx-0">' +
-        '<select class="form-control wednesdayRequiredSkill px-0 mx-0">' +
-        '<option selected disable hidden value="">Required Skill</option>' +
-        fillSkills(skills) +
-        "</select>" +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="wednesdayShiftStart">Start Time</label>' +
-        '<input type="time" class="form-control wednesdayShiftStart" />' +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="wednesdayShiftEnd">End Time</label>' +
-        '<input type="time" class="form-control wednesdayShiftEnd" />' +
-        "</div>" +
-        '<div class="form-group col-md-12 text-center">' +
-        '<button class="btn btn-danger removeShift">' +
-        "Remove Shift" +
-        "</button>" +
-        "</div>" +
-        "</div>" +
-        "<hr />" +
-        "</div>"
+      '<div class="form-group col-md-12 px-0 mx-0">' +
+      '<select class="form-control wednesdayRequiredSkill px-0 mx-0">' +
+      '<option selected disable hidden value="">Required Skill</option>' +
+      fillSkills(skills) +
+      "</select>" +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="wednesdayShiftStart">Start Time</label>' +
+      '<input type="time" class="form-control wednesdayShiftStart" />' +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="wednesdayShiftEnd">End Time</label>' +
+      '<input type="time" class="form-control wednesdayShiftEnd" />' +
+      "</div>" +
+      '<div class="form-group col-md-12 text-center">' +
+      '<button class="btn btn-danger removeShift">' +
+      "Remove Shift" +
+      "</button>" +
+      "</div>" +
+      "</div>" +
+      "<hr />" +
+      "</div>"
     );
 
     // Setting selected required shift
@@ -245,28 +245,28 @@ $(document).ready(() => {
     // Appending new required skill
     $("#thursdayShiftSection").append(
       '<div class="form-row px-0 mx-0">' +
-        '<div class="form-group col-md-12 px-0 mx-0">' +
-        '<select class="form-control thursdayRequiredSkill px-0 mx-0">' +
-        '<option selected disable hidden value="">Required Skill</option>' +
-        fillSkills(skills) +
-        "</select>" +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="thursdayShiftStart">Start Time</label>' +
-        '<input type="time" class="form-control thursdayShiftStart" />' +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="thursdayShiftEnd">End Time</label>' +
-        '<input type="time" class="form-control thursdayShiftEnd" />' +
-        "</div>" +
-        '<div class="form-group col-md-12 text-center">' +
-        '<button class="btn btn-danger removeShift">' +
-        "Remove Shift" +
-        "</button>" +
-        "</div>" +
-        "</div>" +
-        "<hr />" +
-        "</div>"
+      '<div class="form-group col-md-12 px-0 mx-0">' +
+      '<select class="form-control thursdayRequiredSkill px-0 mx-0">' +
+      '<option selected disable hidden value="">Required Skill</option>' +
+      fillSkills(skills) +
+      "</select>" +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="thursdayShiftStart">Start Time</label>' +
+      '<input type="time" class="form-control thursdayShiftStart" />' +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="thursdayShiftEnd">End Time</label>' +
+      '<input type="time" class="form-control thursdayShiftEnd" />' +
+      "</div>" +
+      '<div class="form-group col-md-12 text-center">' +
+      '<button class="btn btn-danger removeShift">' +
+      "Remove Shift" +
+      "</button>" +
+      "</div>" +
+      "</div>" +
+      "<hr />" +
+      "</div>"
     );
 
     // Setting selected required shift
@@ -307,28 +307,28 @@ $(document).ready(() => {
     // Appending new required skill
     $("#fridayShiftSection").append(
       '<div class="form-row px-0 mx-0">' +
-        '<div class="form-group col-md-12 px-0 mx-0">' +
-        '<select class="form-control fridayRequiredSkill px-0 mx-0">' +
-        '<option selected disable hidden value="">Required Skill</option>' +
-        fillSkills(skills) +
-        "</select>" +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="fridayShiftStart">Start Time</label>' +
-        '<input type="time" class="form-control fridayShiftStart" />' +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="fridayShiftEnd">End Time</label>' +
-        '<input type="time" class="form-control fridayShiftEnd" />' +
-        "</div>" +
-        '<div class="form-group col-md-12 text-center">' +
-        '<button class="btn btn-danger removeShift">' +
-        "Remove Shift" +
-        "</button>" +
-        "</div>" +
-        "</div>" +
-        "<hr />" +
-        "</div>"
+      '<div class="form-group col-md-12 px-0 mx-0">' +
+      '<select class="form-control fridayRequiredSkill px-0 mx-0">' +
+      '<option selected disable hidden value="">Required Skill</option>' +
+      fillSkills(skills) +
+      "</select>" +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="fridayShiftStart">Start Time</label>' +
+      '<input type="time" class="form-control fridayShiftStart" />' +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="fridayShiftEnd">End Time</label>' +
+      '<input type="time" class="form-control fridayShiftEnd" />' +
+      "</div>" +
+      '<div class="form-group col-md-12 text-center">' +
+      '<button class="btn btn-danger removeShift">' +
+      "Remove Shift" +
+      "</button>" +
+      "</div>" +
+      "</div>" +
+      "<hr />" +
+      "</div>"
     );
 
     // Setting selected required shift
@@ -369,28 +369,28 @@ $(document).ready(() => {
     // Appending new required skill
     $("#saturdayShiftSection").append(
       '<div class="form-row px-0 mx-0">' +
-        '<div class="form-group col-md-12 px-0 mx-0">' +
-        '<select class="form-control saturdayRequiredSkill px-0 mx-0">' +
-        '<option selected disable hidden value="">Required Skill</option>' +
-        fillSkills(skills) +
-        "</select>" +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="saturdayShiftStart">Start Time</label>' +
-        '<input type="time" class="form-control saturdayShiftStart" />' +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="saturdayShiftEnd">End Time</label>' +
-        '<input type="time" class="form-control saturdayShiftEnd" />' +
-        "</div>" +
-        '<div class="form-group col-md-12 text-center">' +
-        '<button class="btn btn-danger removeShift">' +
-        "Remove Shift" +
-        "</button>" +
-        "</div>" +
-        "</div>" +
-        "<hr />" +
-        "</div>"
+      '<div class="form-group col-md-12 px-0 mx-0">' +
+      '<select class="form-control saturdayRequiredSkill px-0 mx-0">' +
+      '<option selected disable hidden value="">Required Skill</option>' +
+      fillSkills(skills) +
+      "</select>" +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="saturdayShiftStart">Start Time</label>' +
+      '<input type="time" class="form-control saturdayShiftStart" />' +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="saturdayShiftEnd">End Time</label>' +
+      '<input type="time" class="form-control saturdayShiftEnd" />' +
+      "</div>" +
+      '<div class="form-group col-md-12 text-center">' +
+      '<button class="btn btn-danger removeShift">' +
+      "Remove Shift" +
+      "</button>" +
+      "</div>" +
+      "</div>" +
+      "<hr />" +
+      "</div>"
     );
 
     // Setting selected required shift
@@ -431,28 +431,28 @@ $(document).ready(() => {
     // Appending new required skill
     $("#sundayShiftSection").append(
       '<div class="form-row px-0 mx-0">' +
-        '<div class="form-group col-md-12 px-0 mx-0">' +
-        '<select class="form-control sundayRequiredSkill px-0 mx-0">' +
-        '<option selected disable hidden value="">Required Skill</option>' +
-        fillSkills(skills) +
-        "</select>" +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="sundayShiftStart">Start Time</label>' +
-        '<input type="time" class="form-control sundayShiftStart" />' +
-        "</div>" +
-        '<div class="form-group col-md-12">' +
-        '<label for="sundayShiftEnd">End Time</label>' +
-        '<input type="time" class="form-control sundayShiftEnd" />' +
-        "</div>" +
-        '<div class="form-group col-md-12 text-center">' +
-        '<button class="btn btn-danger removeShift">' +
-        "Remove Shift" +
-        "</button>" +
-        "</div>" +
-        "</div>" +
-        "<hr />" +
-        "</div>"
+      '<div class="form-group col-md-12 px-0 mx-0">' +
+      '<select class="form-control sundayRequiredSkill px-0 mx-0">' +
+      '<option selected disable hidden value="">Required Skill</option>' +
+      fillSkills(skills) +
+      "</select>" +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="sundayShiftStart">Start Time</label>' +
+      '<input type="time" class="form-control sundayShiftStart" />' +
+      "</div>" +
+      '<div class="form-group col-md-12">' +
+      '<label for="sundayShiftEnd">End Time</label>' +
+      '<input type="time" class="form-control sundayShiftEnd" />' +
+      "</div>" +
+      '<div class="form-group col-md-12 text-center">' +
+      '<button class="btn btn-danger removeShift">' +
+      "Remove Shift" +
+      "</button>" +
+      "</div>" +
+      "</div>" +
+      "<hr />" +
+      "</div>"
     );
 
     // Setting selected required shift
@@ -498,38 +498,38 @@ $(document).ready(() => {
     // Appending new required skill
     $("#specialShiftSection").append(
       '<div class="form-row">' +
-        '<div class="form-group col-md-4">' +
-        '<div class="input-group date">' +
-        "<input" +
-        ' type="text"' +
-        ' class="form-control dateInput specialShiftDate"' +
-        ' aria-describedby="calenderIcon"' +
-        "/>" +
-        '<div class="input-group-append">' +
-        '<span class="input-group-text" id="calenderIcon"' +
-        '><i class="fas fa-calendar-alt"></i' +
-        "></span>" +
-        "</div>" +
-        "</div>" +
-        "</div>" +
-        '<div class="form-group col-md-3">' +
-        '<select class="form-control specialShiftRequiredSkill">' +
-        '<option selected disable hidden value="">Required Skill</option>' +
-        fillSkills(skills) +
-        "</select>" +
-        "</div>" +
-        '<div class="form-group col-md-2">' +
-        '<input type="time" class="form-control specialShiftStart" />' +
-        "</div>" +
-        '<div class="form-group col-md-2">' +
-        '<input type="time" class="form-control specialShiftEnd" />' +
-        "</div>" +
-        '<div class="form-group col-md-1">' +
-        '<button class="btn btn-danger removeSpecialShift">' +
-        "Remove Shift" +
-        "</button>" +
-        "</div>" +
-        "</div>"
+      '<div class="form-group col-md-4">' +
+      '<div class="input-group date">' +
+      "<input" +
+      ' type="text"' +
+      ' class="form-control dateInput specialShiftDate"' +
+      ' aria-describedby="calenderIcon"' +
+      "/>" +
+      '<div class="input-group-append">' +
+      '<span class="input-group-text" id="calenderIcon"' +
+      '><i class="fas fa-calendar-alt"></i' +
+      "></span>" +
+      "</div>" +
+      "</div>" +
+      "</div>" +
+      '<div class="form-group col-md-3">' +
+      '<select class="form-control specialShiftRequiredSkill">' +
+      '<option selected disable hidden value="">Required Skill</option>' +
+      fillSkills(skills) +
+      "</select>" +
+      "</div>" +
+      '<div class="form-group col-md-2">' +
+      '<input type="time" class="form-control specialShiftStart" />' +
+      "</div>" +
+      '<div class="form-group col-md-2">' +
+      '<input type="time" class="form-control specialShiftEnd" />' +
+      "</div>" +
+      '<div class="form-group col-md-1">' +
+      '<button class="btn btn-danger removeSpecialShift">' +
+      "Remove Shift" +
+      "</button>" +
+      "</div>" +
+      "</div>"
     );
 
     // Setting selected special shift
@@ -636,7 +636,7 @@ $(document).ready(() => {
 
     // Removing id and shifts from keys because they aren't needed right now
     var keys = Object.keys(shifts);
-    var keys = keys.filter(function(value, index, arr) {
+    var keys = keys.filter(function (value, index, arr) {
       return value != "_id" && value != "specialShifts";
     });
 

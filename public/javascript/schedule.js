@@ -2,11 +2,18 @@
 const { ipcRenderer } = require("electron");
 const moment = require("moment");
 
+// Calling helper class Library and the required method fillSkills
+const classLibrary = require("../public/javascript/classLibrary.js");
+const fillSkills = classLibrary.fillSkills;
+
 // get employee list
 employees = ipcRenderer.sendSync("employeeListSync");
 
 // get required shifts
 shifts = ipcRenderer.sendSync("getShiftRequestSync");
+
+// get positions
+skills = ipcRenderer.sendSync("getBusinessInfoSync").skills;
 
 // Function to filter out employees that can't work the shift (alerts if shift cannot be filled)
 function checkPool(shift, pool) {
@@ -25,8 +32,10 @@ function checkPool(shift, pool) {
 
 // check most qualified out of the remaining employees
 function allocateShift(shift, pool, employeeList) {
+  newPool = [];
+
   if (pool.length == 0) {
-    alert("Shift on " + shift.date.format("MMMM Do") + " for " + shift.requiredSkill + " could not be filled");
+    alert("Shift on " + getFormattedDate(shift.date, "MMM D") + " for " + shift.requiredSkill + " could not be filled");
     return employeeList;
   }
 
@@ -34,61 +43,80 @@ function allocateShift(shift, pool, employeeList) {
   // Primary skill : 5 points
   // Amount below minimum hours : 5 * (hours below (to a max of 10) / 10)
   // If it is your preferred shift : 5 points
-
-  for (var i = 0; i < pool.length; ++i) {
+  pool.forEach(employee => {
     // Primary skill : 5 points
-    if (shift.requiredSkill in pool[i].primarySkills) {
-      pool[i].score += 5;
+    if (employee.primarySkills.includes(shift.requiredSkill)) {
+      employee.score += 5;
     }
 
-    if (pool[i].minHoursPerWeek > pool[i].hoursWorked) {
-      amountBelowMinHours = Math.min(pool[i].minHoursPerWeek - pool[i].hoursWorked, 10);
+    if (employee.minHoursPerWeek > employee.hoursWorked) {
+      amountBelowMinHours = Math.min(employee.minHoursPerWeek - employee.hoursWorked, 10);
 
-      pool[i].score += 5 * (amountBelowMinHours / 10);
+      employee.score += 5 * (amountBelowMinHours / 10);
     }
 
     // preffered shift of the employee
-    pool[i].preferredShifts.forEach((preferredShift) => {
-      if (preferredShift.dayOfWeek == shift.date.format("dddd") && preferredShift.startTime == shift.startTime && preferredShift.endTime == shift.endTime) {
-        pool[i].score += 5;
+    employee.preferredShifts.forEach((preferredShift) => {
+      if (preferredShift.dayOfWeek == getDayOfWeek(shift.date) && preferredShift.startTime == shift.startTime && preferredShift.endTime == shift.endTime) {
+        employee.score += 5;
       }
     })
-  }
+
+    newPool.push(employee);
+  })
+
 
   // Select highest scoring employee 
-  selectedEmployees = [pool[0]];
-  for (var i = 1; i < pool.length; ++i) {
-    if (pool[i].score > selectedEmployees[0].score) {
+  selectedEmployees = [newPool[0]];
+  for (var i = 1; i < newPool.length; ++i) {
+    if (newPool[i].score > selectedEmployees[0].score) {
       selectedEmployees = [];
-      selectedEmployees.push(pool[i]);
-    } else if (pool[i].score == selectedEmployees[0].score) { // if tie, just add to end of array
-      selectedEmployees.push(pool[i]);
+      selectedEmployees.push(newPool[i]);
+    } else if (newPool[i].score == selectedEmployees[0].score) { // if tie, just add to end of array
+      selectedEmployees.push(newPool[i]);
     }
   }
 
   selectedEmployee = {};
 
   if (selectedEmployees.length > 1) {
-    selectedEmployee = selectedEmployees[Math.floor(Math.random() * selectedEmployees.length)];
+    selectedEmployee = selectedEmployees[Math.floor(Math.random() * selectedEmployees.length)]; // picking random employee if there is a tie
   } else {
-    selectedEmployee = selectedEmployees[0];
+    selectedEmployee = selectedEmployees[0];  // selecting the one employee if there is no tie
   }
 
+  // Selecting employee for shift
   index = employeeList.indexOf(selectedEmployee);
-
-  employeeList[index].shiftsToday += 1;
-  employeeList[index].hoursWorked += getTimeDiff(shift.startTime, shift.endTime);
-
   giveShift(employeeList[index], shift);
-  return employeeList;
+
+  newEmployeeList = [];
+  // Formatting new employee List
+  employeeList.forEach((employee, i) => {
+    if (i == index) {
+      employee.shiftsToday += 1;
+      employee.hoursWorked += getTimeDiff(shift.startTime, shift.endTime);
+    }
+
+    employee.score = 0; // Resetting all scores to 0
+
+    newEmployeeList.push(employee);
+  })
+
+  return newEmployeeList;
 }
 
 function giveShift(selectedEmployee, shift) {
-  contentId = selectedEmployee.firstName + selectedEmployee.lastName + shift.date.format("MMMMDD");
+  contentId = selectedEmployee.firstName + selectedEmployee.lastName + getFormattedDate(shift.date, "MMMD");
 
+  // showing the form if they were selected for shift
+  $("." + contentId + ".startTime").show();
+  $("." + contentId + ".endTime").show();
+  $("." + contentId + "Pos").show();
+
+  // setting the value of the form
   $("." + contentId + ".startTime").val(shift.startTime + ":00");
   $("." + contentId + ".endTime").val(shift.endTime);
-  $("." + contentId + "Pos").text(shift.requiredSkill);
+  $("." + contentId + "Pos").val(shift.requiredSkill);
 }
 
 function getTimeDiff(startTime, endTime) {
@@ -136,7 +164,7 @@ function checkSchedule(employee, shift) {
   // Checking if prolonged unavailability overlaps with shift
   employee.prolongedUnavailability.forEach((range) => {
     // Converting everything to a moment object for ease (change startTime to startDate at some point)
-    if (willOverlap(shift.date, shift.date, new Date(formatDate(range.startTime)), new Date(formatDate(range.endTime)))) {
+    if (willOverlap(shift.date, shift.date, getNoOffsetDate(range.startTime), getNoOffsetDate(range.endTime))) {
       return false;
     }
   })
@@ -144,7 +172,7 @@ function checkSchedule(employee, shift) {
 
   // Checking if dates unavailable matches date of shift
   employee.datesUnavailable.forEach((date) => {
-    if (getFormattedDate(new Date(formatDate(date))) == getFormattedDate(shift.date)) {
+    if (getFormattedDate(getNoOffsetDate(date)) == getFormattedDate(shift.date)) {
       return false;
     }
   })
@@ -152,7 +180,7 @@ function checkSchedule(employee, shift) {
   // Checking if overlaps with days unavailable
   employee.daysUnavailable.forEach((day) => {
     // Checking if shift day of the week is the same as the unavailable day of the week
-    if (getDayOfWeek(shift.date, daysOfWeek) == day.dayOfWeek) {
+    if (getDayOfWeek(shift.date) == day.dayOfWeek) {
 
       // Checking if the shift times will overlap (converting times to dates to reuse willOverlap())
       if (willOverlap(getDateFromTime(shift.startTime), getDateFromTime(shift.endTime), getDateFromTime(day.startTime), getDateFromTime(day.endTime))) {
@@ -219,9 +247,23 @@ function formatWeekShifts(shiftSchedule, startDateOfWeek, daysOfWeek) {
         requiredSkill: shift.requiredSkill
       }
 
-
       weekShifts[day].push(formattedShift);
     });
+
+    // Adding special shifts
+    shiftSchedule.specialShifts.forEach(shift => {
+      if (shift.date == getFormattedDate(changeDate(index, startDateOfWeek))) {
+        specialShift = {
+          date: changeDate(index, startDateOfWeek),
+          startTime: shift.startTime,
+          endTime: shift.endTime,
+          requiredSkill: shift.requiredSkill
+        }
+
+        weekShifts[day].push(specialShift);
+      }
+    })
+
   })
 
   return weekShifts;
@@ -261,17 +303,19 @@ function getFormattedDate(date, format = "MM/DD/YYYY") {
     return month + '/' + day + '/' + year;
   } else if (format == "MMM D") {
 
-    var options = { weekday: 'short', day: "numeric" }
+    var options = { month: "short", day: "numeric" };
     str = date.toLocaleDateString("en-US", options);
-    arr = str.split(" ");
 
-    return arr[1] + " " + arr[0];
+
+    return str;
+
   } else if (format == "MMMD") {
-    var options = { weekday: 'short', day: "numeric" }
+
+    var options = { month: "short", day: "numeric" };
     str = date.toLocaleDateString("en-US", options);
     arr = str.split(" ");
 
-    return arr[1] + arr[0];
+    return arr[0] + arr[1];
   }
 
 }
@@ -279,7 +323,8 @@ function getFormattedDate(date, format = "MM/DD/YYYY") {
 // INPUT: date -> Javascript date
 // INPUT: daysOfWeek -> List of days of week for ease (allows for easier changing later in case week starts on wednesday)
 // OUTPUT: String rep. for day of the week (i.e. monday, tuesday, wed...)
-function getDayOfWeek(date, daysOfWeek) {
+function getDayOfWeek(date) {
+  const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
   return daysOfWeek[date.getDay() - 1]; // -1 is to adjust for Sunday == 0
 }
 
@@ -287,7 +332,9 @@ function getMonday(date) {
   date = new Date(date);
   var day = date.getDay(),
     diff = date.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+
   return new Date(date.setDate(diff));
+
 }
 
 
@@ -305,29 +352,29 @@ function createTable(weeks, startDate, daysOfWeek) {
     $("#schedule").append(
       '<div class="table-responsive">' +
       '<table class="table table-bordered">' +
-      '<thead>' +
+      '<thead class="thead-light">' +
       '<tr>' +
       '<th scope="col">Employee</th>' +
       '<th id="monday" scope="col">' +
-      'Monday, ' + getFormattedDate(changeDate(0, currDate), "MMM D") +
+      'Mon, ' + getFormattedDate(changeDate(0, currDate), "MMM D") +
       '</th>' +
       '<th id="tuesday" scope="col">' +
-      'Tuesday, ' + getFormattedDate(changeDate(1, currDate), "MMM D") +
+      'Tue, ' + getFormattedDate(changeDate(1, currDate), "MMM D") +
       '</th>' +
       '<th id="wednesday" scope="col">' +
-      'Wednesday, ' + getFormattedDate(changeDate(2, currDate), "MMM D") +
+      'Wed, ' + getFormattedDate(changeDate(2, currDate), "MMM D") +
       '</th>' +
       '<th id="thursday" scope="col">' +
-      'Thursday, ' + getFormattedDate(changeDate(3, currDate), "MMM D") +
+      'Thu, ' + getFormattedDate(changeDate(3, currDate), "MMM D") +
       '</th>' +
       '<th id="friday" scope="col">' +
-      'Friday, ' + getFormattedDate(changeDate(4, currDate), "MMM D") +
+      'Fri, ' + getFormattedDate(changeDate(4, currDate), "MMM D") +
       '</th>' +
       '<th id="saturday" scope="col">' +
-      'Saturday, ' + getFormattedDate(changeDate(5, currDate), "MMM D") +
+      'Sat, ' + getFormattedDate(changeDate(5, currDate), "MMM D") +
       '</th>' +
       '<th id="sunday" scope="col">' +
-      'Sunday, ' + getFormattedDate(changeDate(6, currDate), "MMM D") +
+      'Sun, ' + getFormattedDate(changeDate(6, currDate), "MMM D") +
       '</th>' +
       '</tr>' +
       '</thead>' +
@@ -336,8 +383,6 @@ function createTable(weeks, startDate, daysOfWeek) {
       '</div>'
     );
 
-    // // add date of shift to contentID
-    // currDate.add(-6, 'days'); // getting start date to label each shift with date
 
     // Adding each employee to the table
     employees.forEach((employee) => {
@@ -362,9 +407,20 @@ function createTable(weeks, startDate, daysOfWeek) {
           ' class="form-control endTime ' + contentId +
           '"/>' +
 
-          '<h5 class="text-center ' + contentId + 'Pos"></h5>' +
+          '<div class="form-group col-md-12 mt-2 px-0 mx-0">' +
+          '<select class="form-control ' + contentId + 'Pos" px-0 mx-0">' +
+          '<option selected disable hidden value="">Position</option>' +
+          fillSkills(skills) +
+          "</select>" +
+          "</div>" +
+
           '</td>'
         );
+
+        // hiding inputs until they are selected for a shift
+        $("." + contentId + ".startTime").hide();
+        $("." + contentId + ".endTime").hide();
+        $("." + contentId + "Pos").hide();
 
         // Add one day to currDate
         currDate = changeDate(1, currDate);
@@ -390,6 +446,13 @@ function willOverlap(a_start, a_end, b_start, b_end) {
   if (a_start <= b_end && b_end <= a_end) return true; // b ends in a
   if (b_start < a_start && a_end < b_end) return true; // a in b
   return false;
+}
+
+// INPUT: date -> string in format "MM/DD/YYYY"
+// OUTPUT: javascript date with removed offset trick
+function getNoOffsetDate(date) {
+  var newDate = new Date(formatDate(date));
+  return new Date(newDate.getTime() - newDate.getTimezoneOffset() * -60000);
 }
 
 // get the week number a date is in
@@ -425,36 +488,41 @@ $(document).ready(() => {
     // find number of weeks needed to display
     weekDiff = getWeekDiff(startDate, endDate);
 
-    // startDateLabelling = moment(startDate).startOf("isoWeek");
-
-    // endDateLabelling = moment(endDate).endOf("isoWeek");
-
     // getting the first day of the week
-    startDateOfWeek = getMonday(new Date(formatDate(startDate)));
+    // startDateOfWeek = getMonday(formatDate(startDate));
+    startDateOfWeek = getMonday(getNoOffsetDate(startDate));
 
     // creating a table for each week
     createTable(weekDiff, startDateOfWeek, daysOfWeek);
 
     // loop through each week
     for (var i = 0; i < weekDiff; ++i) {
-      
-
       // get shift requirements for each day of the week (formatted from above) (NEED TO FIX, GIVING ALL THE SAME DATE)
       weekShifts = formatWeekShifts(shiftsCopy, changeDate(i * 7, startDateOfWeek), daysOfWeek);
+
+      console.log(weekShifts);
 
       // create list of employees (each week, in order to keep track of hours worked)
       var employeeList = formatEmployees(employeesCopy);
 
-    
       // loop through each day of week and then loop through shift requirements(dont forget special shift requirements)
       daysOfWeek.forEach((day) => {
         weekShifts[day].forEach((shift) => {
 
-          // Removing people from employee list if they dont work for shift
-          pool = checkPool(shift, employeeList);
+          if ((shift.date >= getNoOffsetDate(startDate)) && (shift.date <= getNoOffsetDate(endDate))) {
+            // Removing people from employee list if they dont work for shift
+            pool = checkPool(shift, employeeList);
 
-          // Allocating shifts
-          employeeList = allocateShift(shift, pool, employeeList);
+            // Allocating shifts
+            employeeList = allocateShift(shift, pool, employeeList);
+
+            // reset scores
+            for (var i = 0; i < employeeList.length; ++i) {
+              employeeList[i].score = 0;
+            }
+
+          };
+
         })
 
         // Resetting number of shifts worked that day
