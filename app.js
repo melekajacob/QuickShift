@@ -2,6 +2,7 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 var Datastore = require("nedb");
 const fs = require("fs");
+global.currentEmployeeId = null;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -22,6 +23,11 @@ var businessInfoDB = new Datastore({
   filename: app.getPath("userData") + "/businessInfo.db",
   autoload: true
 });
+
+var scheduleDB = new Datastore({
+  filename: app.getPath("userData") + "/schedule.db",
+  autoload: true
+})
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow() {
@@ -46,9 +52,12 @@ function createWindow() {
 // Electron `app` is ready
 app.on("ready", createWindow);
 
+
+
+
 // Listens for new employee from renderer process
 ipcMain.on("newEmployee", (e, newEmployee) => {
-  employeeDB.insert(newEmployee, function(err, newEmployee) {
+  employeeDB.insert(newEmployee, function (err, newEmployee) {
     if (err) {
       console.log(err);
     } else {
@@ -89,13 +98,33 @@ ipcMain.on("showEmployeeRequest", (e, id) => {
     if (err) {
       console.log("ERROR OCCURRED DURING SHOWING:" + err);
     } else {
-      mainWindow.loadFile("./views/show.html");
-      mainWindow.webContents.on("did-finish-load", () => {
-        mainWindow.webContents.send("showEmployee", employee);
-      });
+      // console.log(employee);
+
+      e.returnValue = employee;
+      // mainWindow.loadFile("./views/editEmployee.html");
+
+      // mainWindow.webContents.on("did-finish-load", () => {
+      //   mainWindow.webContents.send("showEmployee", employee);
+      // });
     }
   });
 });
+
+// Listens for setting new employee to show
+ipcMain.on("setCurrentEmployee", (e, id) => {
+  // Retrieving employee from database
+
+  // console.log(employee);
+  global.currentEmployeeId = id;
+
+  mainWindow.loadFile("./views/editEmployee.html");
+
+  // mainWindow.webContents.on("did-finish-load", () => {
+  //   mainWindow.webContents.send("showEmployee", employee);
+  // });
+
+});
+
 
 // Listens for an update to an employee
 ipcMain.on("updateEmployee", (e, updatedEmployee) => {
@@ -113,11 +142,14 @@ ipcMain.on("updateEmployee", (e, updatedEmployee) => {
         console.log("=====UPDATED EMPLOYEE:=====");
         console.log(updatedEmployee.updatedEmployee);
 
+
+
         mainWindow.loadFile("./views/employeeList.html");
       }
     }
   );
 });
+
 
 // Deleting an employee
 ipcMain.on("deleteEmployeeRequest", (e, id) => {
@@ -133,12 +165,27 @@ ipcMain.on("deleteEmployeeRequest", (e, id) => {
   });
 });
 
+// Updating schedule
+ipcMain.on("updateSchedule", (e, schedule) => {
+  scheduleDB.update({}, schedule, { upsert: true }, (err, numReplaced) => {
+    if (err) {
+      console.log("ERROR UPDATING SCHEDULE: " + err);
+    } else {
+      console.log("SCHEDULE UPDATED SUCCESSFULLY");
+      console.log(schedule);
+      e.reply("updateScheduleReply", "Schedule Update was Successful");
+    }
+  });
+});
+
 // Updating shifts
 ipcMain.on("updateShifts", (e, shifts) => {
   shiftDB.update({}, shifts, { upsert: true }, (err, numReplaced) => {
     if (err) {
       console.log("ERROR UPDATING SHIFT: " + err);
     } else {
+      console.log("UPDATE SHIFTS SUCCESSFUL");
+      console.log(shifts);
       e.reply("updateShiftsReply", "Shift Update was Successful");
     }
   });
@@ -150,8 +197,23 @@ ipcMain.on("getShiftRequest", e => {
     if (err) {
       console.log("ERROR OCCURRED!!");
       console.log(err);
+    } else {
+      e.reply("getShiftResponse", shifts);
     }
-    e.reply("getShiftResponse", shifts);
+
+  });
+});
+
+// Getting existing schedule
+ipcMain.on("getScheduleRequest", e => {
+  scheduleDB.findOne({}, (err, schedule) => {
+    if (err) {
+      console.log("ERROR OCCURRED!!");
+      console.log(err);
+    } else {
+      e.reply("getScheduleResponse", schedule);
+    }
+
   });
 });
 

@@ -29,36 +29,36 @@ $(document).ready(() => {
     employees.forEach(employee => {
       $("#employeeList").append(
         '<div class="col-md-4 mb-4">' +
-          '<div class="card border-0 shadow">' +
-          '<div class="card-body text-center">' +
-          '<h2 class="card-title mb-0">' +
-          employee.firstName +
-          " " +
-          employee.lastName +
-          "</h2><hr>" +
-          '<div class="card-text text-black-50"><b>Minimum Hours Per Week:</b> ' +
-          employee.minHoursPerWeek +
-          "</div>" +
-          '<div class="card-text text-black-50"><b>Maximum Hours Per Week:</b> ' +
-          employee.maxHoursPerWeek +
-          "</div>" +
-          '<div class="card-text text-black-50"><b>Primary Skills:</b> ' +
-          getStringOfSkills(employee.primarySkills) +
-          "</div>" +
-          '<div class="card-text text-black-50"><b>Secondary Skills:</b> ' +
-          getStringOfSkills(employee.secondarySkills) +
-          "</div>" +
-          "<div>" +
-          "<a id=" +
-          employee._id +
-          ' class="showEmployee btn btn-warning mt-3 mb-1 text-white ">Show Details/Update</a>' +
-          "<a id=" +
-          employee._id +
-          ' class="btn btn-danger text-white deleteEmployee">Delete Employee</a>' +
-          "</div>" +
-          "</div>" +
-          "</div>" +
-          "</div>"
+        '<div class="card border-0 shadow">' +
+        '<div class="card-body text-center">' +
+        '<h2 class="card-title mb-0">' +
+        employee.firstName +
+        " " +
+        employee.lastName +
+        "</h2><hr>" +
+        '<div class="card-text text-black-50"><b>Minimum Hours Per Week:</b> ' +
+        employee.minHoursPerWeek +
+        "</div>" +
+        '<div class="card-text text-black-50"><b>Maximum Hours Per Week:</b> ' +
+        employee.maxHoursPerWeek +
+        "</div>" +
+        '<div class="card-text text-black-50"><b>Primary Skills:</b> ' +
+        getStringOfSkills(employee.primaryPositions) +
+        "</div>" +
+        '<div class="card-text text-black-50"><b>Secondary Skills:</b> ' +
+        getStringOfSkills(employee.secondaryPositions) +
+        "</div>" +
+        "<div>" +
+        "<a id=" +
+        employee._id +
+        ' class="showEmployee btn btn-warning mt-3 mb-1 text-white ">Show Details/Update</a>' +
+        "<a id=" +
+        employee._id +
+        ' class="btn btn-danger text-white deleteEmployee">Delete Employee</a>' +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>"
       );
     });
   });
@@ -68,7 +68,7 @@ $(document).ready(() => {
     var id = e.target.id;
 
     // Sending id to main process
-    ipcRenderer.send("showEmployeeRequest", id);
+    ipcRenderer.send("setCurrentEmployee", id);
   });
 
   $(document).on("click", "a.deleteEmployee", e => {

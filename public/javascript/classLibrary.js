@@ -3,7 +3,7 @@ module.exports = {
     var valuesInList = [];
 
     // Didnt use arrow func. b/c of jquery bug
-    $("." + className).each(function(i, obj) {
+    $("." + className).each(function (i, obj) {
       if ($(this).val() != "" && $(this).val() != " ") {
         valuesInList.push($(this).val());
       }
@@ -14,10 +14,30 @@ module.exports = {
 
   retrieveListFromDays: (className, startClass, endClass) => {
     var valuesInList = [];
-    $("." + className).each(function(i, obj) {
+    $("." + className).each(function (i, obj) {
       if ($(this).val() != "" && $(this).val() != " ") {
         var dayUnavailable = {
-          dayOfWeek: $(this).val(),
+          dayOfWeek: $(this).val().toLowerCase(),
+          startTime: $("." + startClass)
+            .eq(i)
+            .val(),
+          endTime: $("." + endClass)
+            .eq(i)
+            .val()
+        };
+        valuesInList.push(dayUnavailable);
+      }
+    });
+
+    return valuesInList;
+  },
+
+  getDateUnavailable: (className, startClass, endClass) => {
+    var valuesInList = [];
+    $("." + className).each(function (i, obj) {
+      if ($(this).val() != "" && $(this).val() != " ") {
+        var dayUnavailable = {
+          date: $(this).val().toLowerCase(),
           startTime: $("." + startClass)
             .eq(i)
             .val(),
@@ -34,7 +54,7 @@ module.exports = {
 
   retrieveListFromProlonged: (startClass, endClass) => {
     var valuesInList = [];
-    $("." + startClass).each(function(i, obj) {
+    $("." + startClass).each(function (i, obj) {
       if ($(this).val() != "" && $(this).val() != " ") {
         var prolongedUnavailability = {
           startTime: $(this).val(),
@@ -123,7 +143,7 @@ module.exports = {
     var shiftsInList = [];
 
     // Didnt use arrow func. b/c of jquery bug
-    $("." + dayOfWeek + "RequiredSkill").each(function(i, obj) {
+    $("." + dayOfWeek + "RequiredSkill").each(function (i, obj) {
       if ($(this).val() != "" && $(this).val() != " ") {
         var shift = {
           requiredSkill: $(this).val(),
@@ -145,7 +165,7 @@ module.exports = {
   retrieveListFromSpecialShifts: () => {
     var specialShiftsInList = [];
 
-    $(".specialShiftDate").each(function(i, obj) {
+    $(".specialShiftDate").each(function (i, obj) {
       if ($(this).val() != "" && $(this).val() != " ") {
         var specialShift = {
           date: $(this).val(),

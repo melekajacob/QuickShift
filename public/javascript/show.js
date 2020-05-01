@@ -28,17 +28,17 @@ ipcRenderer.on("showEmployee", (e, employee) => {
     for (var i = 1; i < employee.primarySkills.length; i++) {
       $("#primarySkillsSection").append(
         '<div class="form-row">' +
-          '<div class="form-group col-md-10">' +
-          "<select" +
-          ' class="form-control primarySkills"' +
-          ">" +
-          '<option selected disable hidden value=""' +
-          ">Select Primary Skills</option" +
-          ">" +
-          fillSkills(skills) +
-          "</select>" +
-          "</div>" +
-          "</div>"
+        '<div class="form-group col-md-10">' +
+        "<select" +
+        ' class="form-control primarySkills"' +
+        ">" +
+        '<option selected disable hidden value=""' +
+        ">Select Primary Skills</option" +
+        ">" +
+        fillSkills(skills) +
+        "</select>" +
+        "</div>" +
+        "</div>"
       );
 
       $(".primarySkills")
@@ -58,15 +58,15 @@ ipcRenderer.on("showEmployee", (e, employee) => {
     for (var i = 1; i < employee.secondarySkills.length; i++) {
       $("#secondarySkillsSection").append(
         '<div class="form-row">' +
-          '<div class="form-group col-md-10">' +
-          '<select class="form-control secondarySkills">' +
-          '<option selected disable hidden value=""' +
-          ">Select Secondary Skills</option" +
-          ">" +
-          fillSkills(skills) +
-          "</select>" +
-          "</div>" +
-          "</div>"
+        '<div class="form-group col-md-10">' +
+        '<select class="form-control secondarySkills">' +
+        '<option selected disable hidden value=""' +
+        ">Select Secondary Skills</option" +
+        ">" +
+        fillSkills(skills) +
+        "</select>" +
+        "</div>" +
+        "</div>"
       );
 
       $(".secondarySkills")
@@ -90,35 +90,35 @@ ipcRenderer.on("showEmployee", (e, employee) => {
     for (var i = 1; i < employee.daysUnavailable.length; i++) {
       $("#dayUnavailabilitySection").append(
         '<div class="form-row">' +
-          '<div class="form-group col-md-6">' +
-          "<select" +
-          ' class="form-control dayUnavailable"' +
-          ">" +
-          '<option selected disable hidden value=""' +
-          ">Select Day of the Week</option" +
-          ">" +
-          '<option value="Monday">Monday</option>' +
-          '<option value="Tuesday">Tuesday</option>' +
-          '<option value="Wednesday">Wednesday</option>' +
-          '<option value="Thursday">Thursday</option>' +
-          '<option value="Friday">Friday</option>' +
-          '<option value="Saturday">Saturday</option>' +
-          '<option value="Sunday">Sunday</option>' +
-          "</select>" +
-          "</div>" +
-          '<div class="form-group col-md-2">' +
-          "<input" +
-          ' type="time"' +
-          ' class="form-control dayUnavailabilityStart"' +
-          "/>" +
-          "</div>" +
-          '<div class="form-group col-md-2">' +
-          "<input" +
-          ' type="time"' +
-          ' class="form-control dayUnavailabilityEnd"' +
-          "/>" +
-          "</div>" +
-          "</div>"
+        '<div class="form-group col-md-6">' +
+        "<select" +
+        ' class="form-control dayUnavailable"' +
+        ">" +
+        '<option selected disable hidden value=""' +
+        ">Select Day of the Week</option" +
+        ">" +
+        '<option value="Monday">Monday</option>' +
+        '<option value="Tuesday">Tuesday</option>' +
+        '<option value="Wednesday">Wednesday</option>' +
+        '<option value="Thursday">Thursday</option>' +
+        '<option value="Friday">Friday</option>' +
+        '<option value="Saturday">Saturday</option>' +
+        '<option value="Sunday">Sunday</option>' +
+        "</select>" +
+        "</div>" +
+        '<div class="form-group col-md-2">' +
+        "<input" +
+        ' type="time"' +
+        ' class="form-control dayUnavailabilityStart"' +
+        "/>" +
+        "</div>" +
+        '<div class="form-group col-md-2">' +
+        "<input" +
+        ' type="time"' +
+        ' class="form-control dayUnavailabilityEnd"' +
+        "/>" +
+        "</div>" +
+        "</div>"
       );
 
       // Setting value of new day unavailability
@@ -149,21 +149,21 @@ ipcRenderer.on("showEmployee", (e, employee) => {
     for (var i = 1; i < employee.datesUnavailable.length; i++) {
       $("#dateUnavailableSection").append(
         '<div class="form-row">' +
-          '<div class="form-group col-md-10">' +
-          '<div class="input-group date">' +
-          "<input" +
-          ' type="text"' +
-          ' class="form-control dateInput dateUnavailable"' +
-          ' aria-describedby="calenderIcon"' +
-          "/>" +
-          '<div class="input-group-append">' +
-          '<span class="input-group-text" id="calenderIcon"' +
-          '><i class="fas fa-calendar-alt"></i' +
-          "></span>" +
-          "</div>" +
-          "</div>" +
-          "</div>" +
-          "</div>"
+        '<div class="form-group col-md-10">' +
+        '<div class="input-group date">' +
+        "<input" +
+        ' type="text"' +
+        ' class="form-control dateInput dateUnavailable"' +
+        ' aria-describedby="calenderIcon"' +
+        "/>" +
+        '<div class="input-group-append">' +
+        '<span class="input-group-text" id="calenderIcon"' +
+        '><i class="fas fa-calendar-alt"></i' +
+        "></span>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>"
       );
 
       $(".dateUnavailable")
@@ -190,41 +190,41 @@ ipcRenderer.on("showEmployee", (e, employee) => {
       // Appending new prolonged unavailability
       $("#prolongedUnavailabilitySection").append(
         '<div class="form-row">' +
-          '<div class="form-group col-md-5">' +
-          '<div class="input-group date">' +
-          "<input" +
-          ' type="text"' +
-          ' class="form-control dateInput prolongedUnavailabilityStart"' +
-          "/>" +
-          '<div class="input-group-append">' +
-          '<span class="input-group-text" id="calenderIcon"' +
-          '><i class="fas fa-calendar-alt"></i' +
-          "></span>" +
-          "</div>" +
-          "</div>" +
-          "</div>" +
-          '<div class="form-group col-md-5">' +
-          '<div class="input-group date">' +
-          "<input" +
-          ' type="text"' +
-          ' class="form-control dateInput prolongedUnavailabilityEnd"' +
-          ' aria-describedby="calenderIcon"' +
-          "/>" +
-          '<div class="input-group-append">' +
-          '<span class="input-group-text" id="calenderIcon"' +
-          '><i class="fas fa-calendar-alt"></i' +
-          "></span>" +
-          "</div>" +
-          "</div>" +
-          "</div>" +
-          "</div>"
+        '<div class="form-group col-md-5">' +
+        '<div class="input-group date">' +
+        "<input" +
+        ' type="text"' +
+        ' class="form-control dateInput prolongedUnavailabilityStart"' +
+        "/>" +
+        '<div class="input-group-append">' +
+        '<span class="input-group-text" id="calenderIcon"' +
+        '><i class="fas fa-calendar-alt"></i' +
+        "></span>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        '<div class="form-group col-md-5">' +
+        '<div class="input-group date">' +
+        "<input" +
+        ' type="text"' +
+        ' class="form-control dateInput prolongedUnavailabilityEnd"' +
+        ' aria-describedby="calenderIcon"' +
+        "/>" +
+        '<div class="input-group-append">' +
+        '<span class="input-group-text" id="calenderIcon"' +
+        '><i class="fas fa-calendar-alt"></i' +
+        "></span>" +
+        "</div>" +
+        "</div>" +
+        "</div>" +
+        "</div>"
       );
 
       console.log(
         "PROLONGED UNAVAIL " +
-          i +
-          ":" +
-          employee.prolongedUnavailability[i].startTime
+        i +
+        ":" +
+        employee.prolongedUnavailability[i].startTime
       );
       // Setting selected times
       $(".prolongedUnavailabilityStart")
@@ -257,27 +257,27 @@ ipcRenderer.on("showEmployee", (e, employee) => {
       // Appending the rest
       $("#preferredShiftSection").append(
         '<div class="form-row">' +
-          '<div class="form-group col-md-6">' +
-          '<select class="form-control preferredShift">' +
-          '<option selected disable hidden value=""' +
-          ">Select Day of the Week</option" +
-          ">" +
-          '<option value="Monday">Monday</option>' +
-          '<option value="Tuesday">Tuesday</option>' +
-          '<option value="Wednesday">Wednesday</option>' +
-          '<option value="Thursday">Thursday</option>' +
-          '<option value="Friday">Friday</option>' +
-          '<option value="Saturday">Saturday</option>' +
-          '<option value="Sunday">Sunday</option>' +
-          "</select>" +
-          "</div>" +
-          '<div class="form-group col-md-2">' +
-          '<input type="time" class="form-control preferredShiftStart" />' +
-          "</div>" +
-          '<div class="form-group col-md-2">' +
-          '<input type="time" class="form-control preferredShiftEnd" />' +
-          "</div>" +
-          "</div>"
+        '<div class="form-group col-md-6">' +
+        '<select class="form-control preferredShift">' +
+        '<option selected disable hidden value=""' +
+        ">Select Day of the Week</option" +
+        ">" +
+        '<option value="Monday">Monday</option>' +
+        '<option value="Tuesday">Tuesday</option>' +
+        '<option value="Wednesday">Wednesday</option>' +
+        '<option value="Thursday">Thursday</option>' +
+        '<option value="Friday">Friday</option>' +
+        '<option value="Saturday">Saturday</option>' +
+        '<option value="Sunday">Sunday</option>' +
+        "</select>" +
+        "</div>" +
+        '<div class="form-group col-md-2">' +
+        '<input type="time" class="form-control preferredShiftStart" />' +
+        "</div>" +
+        '<div class="form-group col-md-2">' +
+        '<input type="time" class="form-control preferredShiftEnd" />' +
+        "</div>" +
+        "</div>"
       );
 
       // Setting selected preferred shift and time

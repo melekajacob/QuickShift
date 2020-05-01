@@ -1,5 +1,6 @@
 .card-header {
-  background: #45a29e !important;
+  background: #E9ECEF !important;
+  color:#495057;
 }
 
 .card {
@@ -10,3 +11,50 @@
 .card-text b {
   color: black;
 }
+
+.center_div{
+  margin: 0 auto;
+  width:80% /* value of your choice which suits your alignment */
+}
+
+.startTime:before{
+    content:'Start:';
+    margin-right:.6em;
+    color:#9d9d9d;
+}
+
+.endTime:before{
+  content:'End:';
+  margin-right:.6em;
+  color:#9d9d9d;
+}
+
+.startTime.specialShiftStart:before{
+  content: '';
+  margin-right: 0em;
+}
+
+.endTime.specialShiftEnd:before{
+  content: '';
+  margin-right: 0em;
+}
+
+.cellHover {
+  background-color: #EFF0F1;
+}
+
+.tdAddShift {
+  display:block;
+  margin:auto;
+}
+
+/* 
+input[type=time] {
+  font-size: 0.95em;
+} */
+
+/* 
+hr {
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+} */

@@ -1,389 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Shift Management</title>
 
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-      integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
-      crossorigin="anonymous"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <title>Shift Management</title>
 
-    <!-- Importing custom stylesheet -->
-    <link rel="stylesheet" href="../public/stylesheets/main.css" />
-    <link
-      href="../node_modules/@fortawesome/fontawesome-free/css/all.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
 
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.js"
-      integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI="
-      crossorigin="anonymous"
-    ></script>
+  <!-- Importing custom stylesheet -->
+  <link rel="stylesheet" href="../public/stylesheets/main.css" />
+  <link href="../node_modules/@fortawesome/fontawesome-free/css/all.css" rel="stylesheet" type="text/css" />
 
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"
-    ></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.js"
+    integrity="sha256-BTlTdQO9/fascB1drekrDVkaKd9PkwBymMlHOiG+qLI=" crossorigin="anonymous"></script>
 
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
-    />
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
-    ></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-    <!-- Importing external javascript -->
-    <script src="../public/javascript/shifts.js"></script>
-  </head>
-  <body class="bg-default px-0">
-    <header class="bg-primary text-center py-5 mb-0">
-      <div class="container">
-        <h1 class="font-weight-light text-white display-4">
-          Shift Management
-        </h1>
-        <a href="home.html" class="btn btn-danger mr-5">Go Back</a>
-        <a class="btn btn-warning" id="saveShifts">Save Shifts</a>
-      </div>
-    </header>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
-    <div class="row">
-      <div class="col card">
-        <div class="card-header text-white text-center px-0 mx-0">
-          <h3>Monday</h3>
-        </div>
-        <div class="card-body" id="mondayShiftSection">
-          <div class="form-row px-0 mx-0">
-            <div class="form-group col-md-12 px-0 mx-0">
-              <select class="form-control mondayRequiredSkill px-0 mx-0">
-                <option selected disable hidden value="">Required Skill</option>
-              </select>
-            </div>
+  <!-- Importing external javascript -->
+  <script src="../public/javascript/shifts.js"></script>
+</head>
 
-            <div class="form-group col-md-12">
-              <label for="mondayShiftStart">Start Time</label>
-              <input type="time" class="form-control mondayShiftStart" />
-            </div>
-
-            <div class="form-group col-md-12">
-              <label for="mondayShiftEnd">End Time</label>
-              <input type="time" class="form-control mondayShiftEnd" />
-            </div>
-
-            <div class="col-md-12 text-center">
-              <button class="btn btn-primary" id="addMondayShift">
-                Add Shift
-              </button>
-            </div>
-          </div>
-
-          <hr />
-        </div>
-      </div>
-
-      <div class="col card">
-        <div class="card-header text-white text-center px-0 mx-0">
-          <h3>Tuesday</h3>
-        </div>
-        <div class="card-body" id="tuesdayShiftSection">
-          <div class="form-row px-0 mx-0">
-            <div class="form-group col-md-12 px-0 mx-0">
-              <select class="form-control tuesdayRequiredSkill px-0 mx-0">
-                <option selected disable hidden value="">Required Skill</option>
-                <!-- <option value="Prescription Processing"
-                  >Prescription Processing</option
-                >
-                <option value="Medication Counting">Medication Counting</option>
-                <option value="Cashier">Cashier</option> -->
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="tuesdayShiftStart">Start Time</label>
-            <input type="time" class="form-control tuesdayShiftStart" />
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="tuesdayShiftEnd">End Time</label>
-            <input type="time" class="form-control tuesdayShiftEnd" />
-          </div>
-
-          <div class="col-md-12 text-center">
-            <button class="btn btn-primary" id="addTuesdayShift">
-              Add Shift
-            </button>
-          </div>
-
-          <hr />
-        </div>
-      </div>
-      <div class="col card">
-        <div class="card-header text-white text-center px-0 mx-0">
-          <h3>Wednesday</h3>
-        </div>
-        <div class="card-body" id="wednesdayShiftSection">
-          <div class="form-row px-0 mx-0">
-            <div class="form-group col-md-12 px-0 mx-0">
-              <select class="form-control wednesdayRequiredSkill px-0 mx-0">
-                <option selected disable hidden value="">Required Skill</option>
-                <!-- <option value="Prescription Processing"
-                  >Prescription Processing</option
-                >
-                <option value="Medication Counting">Medication Counting</option>
-                <option value="Cashier">Cashier</option> -->
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="wednesdayShiftStart">Start Time</label>
-            <input type="time" class="form-control wednesdayShiftStart" />
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="wednesdayShiftEnd">End Time</label>
-            <input type="time" class="form-control wednesdayShiftEnd" />
-          </div>
-
-          <div class="col-md-12 text-center">
-            <button class="btn btn-primary" id="addWednesdayShift">
-              Add Shift
-            </button>
-          </div>
-
-          <hr />
-        </div>
-      </div>
-
-      <div class="col card">
-        <div class="card-header text-white text-center px-0 mx-0">
-          <h3>Thursday</h3>
-        </div>
-        <div class="card-body" id="thursdayShiftSection">
-          <div class="form-row px-0 mx-0">
-            <div class="form-group col-md-12 px-0 mx-0">
-              <select class="form-control thursdayRequiredSkill px-0 mx-0">
-                <option selected disable hidden value="">Required Skill</option>
-                <!-- <option value="Prescription Processing"
-                  >Prescription Processing</option
-                >
-                <option value="Medication Counting">Medication Counting</option>
-                <option value="Cashier">Cashier</option> -->
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="thursdayShiftStart">Start Time</label>
-            <input type="time" class="form-control thursdayShiftStart" />
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="thursdayShiftEnd">End Time</label>
-            <input type="time" class="form-control thursdayShiftEnd" />
-          </div>
-
-          <div class="col-md-12 text-center">
-            <button class="btn btn-primary" id="addThursdayShift">
-              Add Shift
-            </button>
-          </div>
-
-          <hr />
-        </div>
-      </div>
-
-      <div class="col card">
-        <div class="card-header text-white text-center px-0 mx-0">
-          <h3>Friday</h3>
-        </div>
-        <div class="card-body" id="fridayShiftSection">
-          <div class="form-row px-0 mx-0">
-            <div class="form-group col-md-12 px-0 mx-0">
-              <select class="form-control fridayRequiredSkill px-0 mx-0">
-                <option selected disable hidden value="">Required Skill</option>
-                <!-- <option value="Prescription Processing"
-                  >Prescription Processing</option
-                >
-                <option value="Medication Counting">Medication Counting</option>
-                <option value="Cashier">Cashier</option> -->
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="fridayShiftStart">Start Time</label>
-            <input type="time" class="form-control fridayShiftStart" />
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="fridayShiftEnd">End Time</label>
-            <input type="time" class="form-control fridayShiftEnd" />
-          </div>
-
-          <div class="col-md-12 text-center">
-            <button class="btn btn-primary" id="addFridayShift">
-              Add Shift
-            </button>
-          </div>
-
-          <hr />
-        </div>
-      </div>
-
-      <div class="col card">
-        <div class="card-header text-white text-center px-0 mx-0">
-          <h3>Saturday</h3>
-        </div>
-        <div class="card-body" id="saturdayShiftSection">
-          <div class="form-row px-0 mx-0">
-            <div class="form-group col-md-12 px-0 mx-0">
-              <select class="form-control saturdayRequiredSkill px-0 mx-0">
-                <option selected disable hidden value="">Required Skill</option>
-                <!-- <option value="Prescription Processing"
-                  >Prescription Processing</option
-                >
-                <option value="Medication Counting">Medication Counting</option>
-                <option value="Cashier">Cashier</option> -->
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="saturdayShiftStart">Start Time</label>
-            <input type="time" class="form-control saturdayShiftStart" />
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="saturdayShiftEnd">End Time</label>
-            <input type="time" class="form-control saturdayShiftEnd" />
-          </div>
-
-          <div class="col-md-12 text-center">
-            <button class="btn btn-primary" id="addSaturdayShift">
-              Add Shift
-            </button>
-          </div>
-
-          <hr />
-        </div>
-      </div>
-
-      <div class="col card">
-        <div class="card-header text-white text-center px-0 mx-0">
-          <h3>Sunday</h3>
-        </div>
-        <div class="card-body" id="sundayShiftSection">
-          <div class="form-row px-0 mx-0">
-            <div class="form-group col-md-12 px-0 mx-0">
-              <select class="form-control sundayRequiredSkill px-0 mx-0">
-                <option selected disable hidden value="">Required Skill</option>
-                <!-- <option value="Prescription Processing"
-                  >Prescription Processing</option
-                >
-                <option value="Medication Counting">Medication Counting</option>
-                <option value="Cashier">Cashier</option> -->
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="sundayShiftStart">Start Time</label>
-            <input type="time" class="form-control sundayShiftStart" />
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="sundayShiftEnd">End Time</label>
-            <input type="time" class="form-control sundayShiftEnd" />
-          </div>
-
-          <div class="col-md-12 text-center">
-            <button class="btn btn-primary" id="addSundayShift">
-              Add Shift
-            </button>
-          </div>
-
-          <hr />
-        </div>
-      </div>
+<body class="bg-default px-0">
+  <header class="bg-primary text-center py-5 mb-0">
+    <div class="container">
+      <h1 class="font-weight-light text-white display-4">
+        Shift Management
+      </h1>
+      <a href="home.html" class="btn btn-danger mr-5">Go Back</a>
+      <a class="btn btn-warning" id="saveShifts">Save Shifts</a>
     </div>
+  </header>
 
+  <div id="shiftsSection">
+    <div class="container mt-2" id="shifts"></div>
+  </div>
+
+  <div class="container">
     <div class="card border-0 shadow mt-4">
-      <div class="card-header text-white text-center px-0 mx-0">
+      <div class="card-header text-center px-0 mx-0">
         <h2>Special Shifts</h2>
       </div>
       <div class="card-body" id="specialShiftSection">
-        <!-- LABELLING STRUCTURE  -->
-        <div class="row">
-          <div class="col-md-4">
-            <label for="specialShiftDate">Special Shift Date</label>
-          </div>
-          <div class="col-md-3">
-            <label for="specialShiftRequiredSkill">Required Skill</label>
-          </div>
-          <div class="col-md-2">
-            <label for="specialShiftStart">Start Time</label>
-          </div>
-          <div class="col-md-2">
-            <label for="specialShiftEnd">End Time</label>
-          </div>
-        </div>
+        <div class="container col-md-10 col-md-offset-1" id="specialShiftsSection">
+          <!-- THIS IS WHERE THE ADDED PRIMARY SKILLS WILL GO -->
 
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <div class="input-group date">
-              <input
-                type="text"
-                class="form-control dateInput specialShiftDate"
-                aria-describedby="calenderIcon"
-              />
-              <div class="input-group-append">
-                <span class="input-group-text" id="calenderIcon"
-                  ><i class="fas fa-calendar-alt"></i
-                ></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group col-md-3">
-            <select class="form-control specialShiftRequiredSkill">
-              <option selected disable hidden value="">Required Skill</option>
-              <!-- <option value="Prescription Processing"
-                >Prescription Processing</option
-              >
-              <option value="Medication Counting">Medication Counting</option>
-              <option value="Cashier">Cashier</option> -->
-            </select>
-          </div>
-
-          <div class="form-group col-md-2">
-            <input type="time" class="form-control specialShiftStart" />
-          </div>
-
-          <div class="form-group col-md-2">
-            <input type="time" class="form-control specialShiftEnd" />
-          </div>
-
-          <div class="form-group col-md-1">
-            <button class="btn btn-primary" id="addSpecialShift">
-              Add Shift
+          <div class="form-group text-center">
+            <button class="btn btn-primary btn-block" type="button" id="addSpecialShift">
+              Add Special Shift
             </button>
           </div>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

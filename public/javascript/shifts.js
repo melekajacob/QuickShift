@@ -15,9 +15,131 @@ const fillSkills = classLibrary.fillSkills;
 // get skills
 skills = ipcRenderer.sendSync("getBusinessInfoSync").skills;
 
+// REMOVE ONCE FORM VALIDATION IS COMPLETE
+function nonEmptyShift(inputs) {
+  for (var i = 0; i < inputs.length; ++i) {
+    console.log(inputs[i]);
+    if (inputs[i] == "" || inputs[i] == " ") {
+
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function getSpecialShifts() {
+  shifts = [];
+
+  $(".specialShift").each((i, obj) => {
+    console.log(obj);
+
+    startTime = $(obj).children(".specialShiftStart").children(".startTime").val()
+    endTime = $(obj).children(".specialShiftEnd").children(".endTime").val()
+    position = $(obj).children(".specialShiftPosition").children(".specialShiftPosition").val()
+    date = $(obj).children(".dateGroup").children(".date").children(".dateInput").val()
+
+    console.log(nonEmptyShift([startTime, endTime, position, date]));
+    if (nonEmptyShift([startTime, endTime, position, date])) {
+      shift = {
+        startTime: startTime,
+        endTime: endTime,
+        position: position,
+        date: date
+      }
+
+      shifts.push(shift);
+    } else {
+      alert("One or more shifts inputted incorrectly")
+    }
+
+  })
+
+  return shifts;
+}
+
+function getDayShifts(day) {
+  shifts = [];
+
+
+  $("." + day + "Shift").each((i, obj) => {
+    console.log(obj);
+
+    startTime = $(obj).children(".startTime").val()
+    endTime = $(obj).children(".endTime").val()
+    position = $(obj).children(".form-group").children("." + day + "Pos").val()
+
+    console.log(nonEmptyShift([startTime, endTime, position]));
+    if (nonEmptyShift([startTime, endTime, position])) {
+      shift = {
+        startTime: startTime,
+        endTime: endTime,
+        position: position
+      }
+
+      shifts.push(shift);
+    } else {
+      alert("One or more shifts inputted incorrectly, and could not be saved")
+    }
+
+  })
+
+  return shifts;
+}
+
+function createShiftTable(daysOfWeek) {
+  $("#shifts").append(
+    '<div class="table-responsive">' +
+    '<table class="table table-bordered">' +
+    '<thead class="thead-light">' +
+    '<tr>' +
+    '<th id="monday" scope="col">' +
+    'Monday' +
+    '</th>' +
+    '<th id="tuesday" scope="col">' +
+    'Tuesday' +
+    '</th>' +
+    '<th id="wednesday" scope="col">' +
+    'Wednesday' +
+    '</th>' +
+    '<th id="thursday" scope="col">' +
+    'Thursday' +
+    '</th>' +
+    '<th id="friday" scope="col">' +
+    'Friday' +
+    '</th>' +
+    '<th id="saturday" scope="col">' +
+    'Saturday' +
+    '</th>' +
+    '<th id="sunday" scope="col">' +
+    'Sunday' +
+    '</th>' +
+    '</tr>' +
+    '</thead>' +
+    '<tbody id="shiftTableBody"></tbody>' +
+    '</table>' +
+    '</div>'
+  );
+
+  daysOfWeek.forEach(day => {
+    $("#shiftTableBody").append(
+      '<td>' +
+      '<div id="' + day + 'ShiftsSection">' +
+
+      '<div class="form-group text-center">' +
+      '<button class="btn btn-primary btn-block addShift" type="button" id="' + day + '">' +
+      'Add Shift' +
+      '</button>' +
+      '</div>' +
+      '</div>' +
+      '</td>'
+    )
+  })
+
+}
+
 $(document).ready(() => {
-  // Filling skills for specific business
-  weekdays = [
+  daysOfWeek = [
     "monday",
     "tuesday",
     "wednesday",
@@ -27,16 +149,115 @@ $(document).ready(() => {
     "sunday"
   ];
 
-  weekdays.forEach(day => {
-    skills.forEach(skill => {
-      $("." + day + "RequiredSkill").append(
-        $("<option/>", {
-          value: skill,
-          text: skill
-        })
-      );
+  createShiftTable(daysOfWeek);
+
+  $(".addShift").on("click", e => {
+    // Getting the day of the week 
+    dayOfWeek = e.currentTarget.id;
+
+
+    $("#" + dayOfWeek + "ShiftsSection").prepend(
+
+      '<div class="' + dayOfWeek + 'Shift">' +
+      '<input' +
+      ' type="time"' +
+      ' class="form-control startTime ' + dayOfWeek +
+      '"/>' +
+
+      '<input' +
+      ' type="time"' +
+      ' class="form-control endTime ' + dayOfWeek +
+      '"/>' +
+
+      '<div class="form-group col-md-12 mt-2 px-0 mx-0">' +
+      '<select class="form-control ' + dayOfWeek + 'Pos" px-0 mx-0">' +
+      '<option selected disable hidden value="">Required Position</option>' +
+      fillSkills(skills) +
+      "</select>" +
+      "</div>" +
+
+      '<div class="form-group text-center ">' +
+      '<button class="btn btn-danger btn-block remove" type="button">' +
+      'Remove' +
+      '</button>' +
+      '</div>' +
+      '</div>' +
+      '<hr/>'
+    )
+
+  })
+
+  $("#addSpecialShift").on("click", e => {
+    $("#specialShiftsSection").prepend(
+      '<div class="form-row specialShift">' +
+      '<div class="form-group dateGroup col-md-4">' +
+      '<div class="input-group date">' +
+      '<input type="text" class="form-control dateInput specialShiftDate" placeholder="Date" aria-describedby="calenderIcon" />' +
+      '<div class="input-group-append">' +
+      '<span class="input-group-text" id="calenderIcon"><i class="fas fa-calendar-alt"></i></span>' +
+      '</div>' +
+      '</div>' +
+      '</div>' +
+
+      '<div class="form-group specialShiftPosition col-md-3">' +
+      '<select class="form-control specialShiftPosition">' +
+      '<option selected disable hidden value="">Required Position</option>' +
+      fillSkills(skills) +
+      '</select>' +
+      '</div>' +
+
+      '<div class="form-group specialShiftStart col-md-2">' +
+      '<input type="time" class="form-control startTime specialShiftStart" />' +
+      '</div>' +
+
+      '<div class="form-group  specialShiftEnd col-md-2">' +
+      '<input type="time" class="form-control endTime specialShiftEnd" />' +
+      '</div>' +
+
+      '<div class="form-group removeButton col-md-1">' +
+      '<button class="btn btn-danger remove" id="removeSpecialShift">' +
+      'Remove' +
+      '</button>' +
+      '</div>' +
+      '</div>'
+
+    )
+
+    // Sets the datepicker on the input
+    $(".input-group.date").datepicker({
+      todayHighlight: true,
+      autoclose: true
     });
+
+  })
+
+  // ===================
+  // SAVING SHIFTS TO DATABASE
+  // ===================
+  $("#saveShifts").on("click", e => {
+    // Put form data into data structure
+
+    var shifts = {
+      specialShifts: getSpecialShifts()
+    };
+
+
+    daysOfWeek.forEach(day => {
+      shifts[day] = getDayShifts(day);
+    })
+
+    console.log(shifts);
+
+    // Send data structure to main process
+    ipcRenderer.send("updateShifts", shifts);
   });
+
+  // // Handling response
+  ipcRenderer.on("updateShiftsReply", (e, msg) => {
+    alert(msg);
+  });
+
+
 
   // Sets the datepicker on the input
   $(".input-group.date").datepicker({
@@ -44,530 +265,8 @@ $(document).ready(() => {
     autoclose: true
   });
 
-  $("#addMondayShift").on("click", e => {
-    //Getting the required skill and start and end times
-    var requiredSkill = $(".mondayRequiredSkill")
-      .first()
-      .val();
-    var startTime = $(".mondayShiftStart")
-      .first()
-      .val();
-    var endTime = $(".mondayShiftEnd")
-      .first()
-      .val();
 
-    // Appending new required skill
-    $("#mondayShiftSection").append(
-      '<div class="form-row px-0 mx-0">' +
-      '<div class="form-group col-md-12 px-0 mx-0">' +
-      '<select class="form-control mondayRequiredSkill px-0 mx-0">' +
-      '<option selected disable hidden value="">Required Skill</option>' +
-      fillSkills(skills) +
-      "</select>" +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="mondayShiftStart">Start Time</label>' +
-      '<input type="time" class="form-control mondayShiftStart" />' +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="mondayShiftEnd">End Time</label>' +
-      '<input type="time" class="form-control mondayShiftEnd" />' +
-      "</div>" +
-      '<div class="form-group col-md-12 text-center">' +
-      '<button class="btn btn-danger removeShift">' +
-      "Remove Shift" +
-      "</button>" +
-      "</div>" +
-      "</div>" +
-      "<hr />" +
-      "</div>"
-    );
-
-    // Setting selected required shift
-    $(".mondayRequiredSkill")
-      .last()
-      .val(requiredSkill);
-    $(".mondayShiftStart")
-      .last()
-      .val(startTime);
-    $(".mondayShiftEnd")
-      .last()
-      .val(endTime);
-
-    // Resetting inputs
-    $(".mondayRequiredSkill")
-      .first()
-      .val("");
-    $(".mondayShiftStart")
-      .first()
-      .val("");
-    $(".mondayShiftEnd")
-      .first()
-      .val("");
-  });
-
-  $("#addTuesdayShift").on("click", e => {
-    //Getting the required skill and start and end times
-    var requiredSkill = $(".tuesdayRequiredSkill")
-      .first()
-      .val();
-    var startTime = $(".tuesdayShiftStart")
-      .first()
-      .val();
-    var endTime = $(".tuesdayShiftEnd")
-      .first()
-      .val();
-
-    // Appending new required skill
-    $("#tuesdayShiftSection").append(
-      '<div class="form-row px-0 mx-0">' +
-      '<div class="form-group col-md-12 px-0 mx-0">' +
-      '<select class="form-control tuesdayRequiredSkill px-0 mx-0">' +
-      '<option selected disable hidden value="">Required Skill</option>' +
-      fillSkills(skills) +
-      "</select>" +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="tuesdayShiftStart">Start Time</label>' +
-      '<input type="time" class="form-control tuesdayShiftStart" />' +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="tuesdayShiftEnd">End Time</label>' +
-      '<input type="time" class="form-control tuesdayShiftEnd" />' +
-      "</div>" +
-      '<div class="form-group col-md-12 text-center">' +
-      '<button class="btn btn-danger removeShift">' +
-      "Remove Shift" +
-      "</button>" +
-      "</div>" +
-      "</div>" +
-      "<hr />" +
-      "</div>"
-    );
-
-    // Setting selected required shift
-    $(".tuesdayRequiredSkill")
-      .last()
-      .val(requiredSkill);
-    $(".tuesdayShiftStart")
-      .last()
-      .val(startTime);
-    $(".tuesdayShiftEnd")
-      .last()
-      .val(endTime);
-
-    // Resetting inputs
-    $(".tuesdayRequiredSkill")
-      .first()
-      .val("");
-    $(".tuesdayShiftStart")
-      .first()
-      .val("");
-    $(".tuesdayShiftEnd")
-      .first()
-      .val("");
-  });
-
-  $("#addWednesdayShift").on("click", e => {
-    //Getting the required skill and start and end times
-    var requiredSkill = $(".wednesdayRequiredSkill")
-      .first()
-      .val();
-    var startTime = $(".wednesdayShiftStart")
-      .first()
-      .val();
-    var endTime = $(".wednesdayShiftEnd")
-      .first()
-      .val();
-
-    // Appending new required skill
-    $("#wednesdayShiftSection").append(
-      '<div class="form-row px-0 mx-0">' +
-      '<div class="form-group col-md-12 px-0 mx-0">' +
-      '<select class="form-control wednesdayRequiredSkill px-0 mx-0">' +
-      '<option selected disable hidden value="">Required Skill</option>' +
-      fillSkills(skills) +
-      "</select>" +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="wednesdayShiftStart">Start Time</label>' +
-      '<input type="time" class="form-control wednesdayShiftStart" />' +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="wednesdayShiftEnd">End Time</label>' +
-      '<input type="time" class="form-control wednesdayShiftEnd" />' +
-      "</div>" +
-      '<div class="form-group col-md-12 text-center">' +
-      '<button class="btn btn-danger removeShift">' +
-      "Remove Shift" +
-      "</button>" +
-      "</div>" +
-      "</div>" +
-      "<hr />" +
-      "</div>"
-    );
-
-    // Setting selected required shift
-    $(".wednesdayRequiredSkill")
-      .last()
-      .val(requiredSkill);
-    $(".wednesdayShiftStart")
-      .last()
-      .val(startTime);
-    $(".wednesdayShiftEnd")
-      .last()
-      .val(endTime);
-
-    // Resetting inputs
-    $(".wednesdayRequiredSkill")
-      .first()
-      .val("");
-    $(".wednesdayShiftStart")
-      .first()
-      .val("");
-    $(".wednesdayShiftEnd")
-      .first()
-      .val("");
-  });
-
-  $("#addThursdayShift").on("click", e => {
-    //Getting the required skill and start and end times
-    var requiredSkill = $(".thursdayRequiredSkill")
-      .first()
-      .val();
-    var startTime = $(".thursdayShiftStart")
-      .first()
-      .val();
-    var endTime = $(".thursdayShiftEnd")
-      .first()
-      .val();
-
-    // Appending new required skill
-    $("#thursdayShiftSection").append(
-      '<div class="form-row px-0 mx-0">' +
-      '<div class="form-group col-md-12 px-0 mx-0">' +
-      '<select class="form-control thursdayRequiredSkill px-0 mx-0">' +
-      '<option selected disable hidden value="">Required Skill</option>' +
-      fillSkills(skills) +
-      "</select>" +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="thursdayShiftStart">Start Time</label>' +
-      '<input type="time" class="form-control thursdayShiftStart" />' +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="thursdayShiftEnd">End Time</label>' +
-      '<input type="time" class="form-control thursdayShiftEnd" />' +
-      "</div>" +
-      '<div class="form-group col-md-12 text-center">' +
-      '<button class="btn btn-danger removeShift">' +
-      "Remove Shift" +
-      "</button>" +
-      "</div>" +
-      "</div>" +
-      "<hr />" +
-      "</div>"
-    );
-
-    // Setting selected required shift
-    $(".thursdayRequiredSkill")
-      .last()
-      .val(requiredSkill);
-    $(".thursdayShiftStart")
-      .last()
-      .val(startTime);
-    $(".thursdayShiftEnd")
-      .last()
-      .val(endTime);
-
-    // Resetting inputs
-    $(".thursdayRequiredSkill")
-      .first()
-      .val("");
-    $(".thursdayShiftStart")
-      .first()
-      .val("");
-    $(".thursdayShiftEnd")
-      .first()
-      .val("");
-  });
-
-  $("#addFridayShift").on("click", e => {
-    //Getting the required skill and start and end times
-    var requiredSkill = $(".fridayRequiredSkill")
-      .first()
-      .val();
-    var startTime = $(".fridayShiftStart")
-      .first()
-      .val();
-    var endTime = $(".fridayShiftEnd")
-      .first()
-      .val();
-
-    // Appending new required skill
-    $("#fridayShiftSection").append(
-      '<div class="form-row px-0 mx-0">' +
-      '<div class="form-group col-md-12 px-0 mx-0">' +
-      '<select class="form-control fridayRequiredSkill px-0 mx-0">' +
-      '<option selected disable hidden value="">Required Skill</option>' +
-      fillSkills(skills) +
-      "</select>" +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="fridayShiftStart">Start Time</label>' +
-      '<input type="time" class="form-control fridayShiftStart" />' +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="fridayShiftEnd">End Time</label>' +
-      '<input type="time" class="form-control fridayShiftEnd" />' +
-      "</div>" +
-      '<div class="form-group col-md-12 text-center">' +
-      '<button class="btn btn-danger removeShift">' +
-      "Remove Shift" +
-      "</button>" +
-      "</div>" +
-      "</div>" +
-      "<hr />" +
-      "</div>"
-    );
-
-    // Setting selected required shift
-    $(".fridayRequiredSkill")
-      .last()
-      .val(requiredSkill);
-    $(".fridayShiftStart")
-      .last()
-      .val(startTime);
-    $(".fridayShiftEnd")
-      .last()
-      .val(endTime);
-
-    // Resetting inputs
-    $(".fridayRequiredSkill")
-      .first()
-      .val("");
-    $(".fridayShiftStart")
-      .first()
-      .val("");
-    $(".fridayShiftEnd")
-      .first()
-      .val("");
-  });
-
-  $("#addSaturdayShift").on("click", e => {
-    //Getting the required skill and start and end times
-    var requiredSkill = $(".saturdayRequiredSkill")
-      .first()
-      .val();
-    var startTime = $(".saturdayShiftStart")
-      .first()
-      .val();
-    var endTime = $(".saturdayShiftEnd")
-      .first()
-      .val();
-
-    // Appending new required skill
-    $("#saturdayShiftSection").append(
-      '<div class="form-row px-0 mx-0">' +
-      '<div class="form-group col-md-12 px-0 mx-0">' +
-      '<select class="form-control saturdayRequiredSkill px-0 mx-0">' +
-      '<option selected disable hidden value="">Required Skill</option>' +
-      fillSkills(skills) +
-      "</select>" +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="saturdayShiftStart">Start Time</label>' +
-      '<input type="time" class="form-control saturdayShiftStart" />' +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="saturdayShiftEnd">End Time</label>' +
-      '<input type="time" class="form-control saturdayShiftEnd" />' +
-      "</div>" +
-      '<div class="form-group col-md-12 text-center">' +
-      '<button class="btn btn-danger removeShift">' +
-      "Remove Shift" +
-      "</button>" +
-      "</div>" +
-      "</div>" +
-      "<hr />" +
-      "</div>"
-    );
-
-    // Setting selected required shift
-    $(".saturdayRequiredSkill")
-      .last()
-      .val(requiredSkill);
-    $(".saturdayShiftStart")
-      .last()
-      .val(startTime);
-    $(".saturdayShiftEnd")
-      .last()
-      .val(endTime);
-
-    // Resetting inputs
-    $(".saturdayRequiredSkill")
-      .first()
-      .val("");
-    $(".saturdayShiftStart")
-      .first()
-      .val("");
-    $(".saturdayShiftEnd")
-      .first()
-      .val("");
-  });
-
-  $("#addSundayShift").on("click", e => {
-    //Getting the required skill and start and end times
-    var requiredSkill = $(".sundayRequiredSkill")
-      .first()
-      .val();
-    var startTime = $(".sundayShiftStart")
-      .first()
-      .val();
-    var endTime = $(".sundayShiftEnd")
-      .first()
-      .val();
-
-    // Appending new required skill
-    $("#sundayShiftSection").append(
-      '<div class="form-row px-0 mx-0">' +
-      '<div class="form-group col-md-12 px-0 mx-0">' +
-      '<select class="form-control sundayRequiredSkill px-0 mx-0">' +
-      '<option selected disable hidden value="">Required Skill</option>' +
-      fillSkills(skills) +
-      "</select>" +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="sundayShiftStart">Start Time</label>' +
-      '<input type="time" class="form-control sundayShiftStart" />' +
-      "</div>" +
-      '<div class="form-group col-md-12">' +
-      '<label for="sundayShiftEnd">End Time</label>' +
-      '<input type="time" class="form-control sundayShiftEnd" />' +
-      "</div>" +
-      '<div class="form-group col-md-12 text-center">' +
-      '<button class="btn btn-danger removeShift">' +
-      "Remove Shift" +
-      "</button>" +
-      "</div>" +
-      "</div>" +
-      "<hr />" +
-      "</div>"
-    );
-
-    // Setting selected required shift
-    $(".sundayRequiredSkill")
-      .last()
-      .val(requiredSkill);
-    $(".sundayShiftStart")
-      .last()
-      .val(startTime);
-    $(".sundayShiftEnd")
-      .last()
-      .val(endTime);
-
-    // Resetting inputs
-    $(".sundayRequiredSkill")
-      .first()
-      .val("");
-    $(".sundayShiftStart")
-      .first()
-      .val("");
-    $(".sundayShiftEnd")
-      .first()
-      .val("");
-  });
-
-  // Add special shift
-  $("#addSpecialShift").on("click", e => {
-    //Getting the required skill and start and end times
-    var specialShiftDate = $(".specialShiftDate")
-      .first()
-      .val();
-
-    var requiredSkill = $(".specialShiftRequiredSkill")
-      .first()
-      .val();
-    var startTime = $(".specialShiftStart")
-      .first()
-      .val();
-    var endTime = $(".specialShiftEnd")
-      .first()
-      .val();
-
-    // Appending new required skill
-    $("#specialShiftSection").append(
-      '<div class="form-row">' +
-      '<div class="form-group col-md-4">' +
-      '<div class="input-group date">' +
-      "<input" +
-      ' type="text"' +
-      ' class="form-control dateInput specialShiftDate"' +
-      ' aria-describedby="calenderIcon"' +
-      "/>" +
-      '<div class="input-group-append">' +
-      '<span class="input-group-text" id="calenderIcon"' +
-      '><i class="fas fa-calendar-alt"></i' +
-      "></span>" +
-      "</div>" +
-      "</div>" +
-      "</div>" +
-      '<div class="form-group col-md-3">' +
-      '<select class="form-control specialShiftRequiredSkill">' +
-      '<option selected disable hidden value="">Required Skill</option>' +
-      fillSkills(skills) +
-      "</select>" +
-      "</div>" +
-      '<div class="form-group col-md-2">' +
-      '<input type="time" class="form-control specialShiftStart" />' +
-      "</div>" +
-      '<div class="form-group col-md-2">' +
-      '<input type="time" class="form-control specialShiftEnd" />' +
-      "</div>" +
-      '<div class="form-group col-md-1">' +
-      '<button class="btn btn-danger removeSpecialShift">' +
-      "Remove Shift" +
-      "</button>" +
-      "</div>" +
-      "</div>"
-    );
-
-    // Setting selected special shift
-    $(".specialShiftDate")
-      .last()
-      .val(specialShiftDate);
-    $(".specialShiftRequiredSkill")
-      .last()
-      .val(requiredSkill);
-    $(".specialShiftStart")
-      .last()
-      .val(startTime);
-    $(".specialShiftEnd")
-      .last()
-      .val(endTime);
-
-    // Resetting inputs
-    $(".specialShiftDate")
-      .first()
-      .val("");
-    $(".specialShiftRequiredSkill")
-      .first()
-      .val("");
-    $(".specialShiftStart")
-      .first()
-      .val("");
-    $(".specialShiftEnd")
-      .first()
-      .val("");
-  });
-
-  // Allowing functionality of removing a special shift
-  $(document).on("click", "button.removeSpecialShift", e => {
-    // Getting the form row using parentNode twice!!
-    e.target.parentNode.parentNode.remove();
-  });
-
-  $(document).on("click", "button.removeShift", e => {
+  $(document).on("click", "button.remove", e => {
     var id = e.target.parentNode.parentNode.parentNode.id;
 
     // Must remove last horizontal line (was having problems including <hr> into parent div)
@@ -579,32 +278,6 @@ $(document).ready(() => {
     e.target.parentNode.parentNode.remove();
   });
 
-  // ===================
-  // SAVING SHIFTS TO DATABASE
-  // ===================
-  $("#saveShifts").on("click", e => {
-    // Put form data into data structure
-    var shifts = {
-      monday: retrieveListFromShifts("monday"),
-      tuesday: retrieveListFromShifts("tuesday"),
-      wednesday: retrieveListFromShifts("wednesday"),
-      thursday: retrieveListFromShifts("thursday"),
-      friday: retrieveListFromShifts("friday"),
-      saturday: retrieveListFromShifts("saturday"),
-      sunday: retrieveListFromShifts("sunday"),
-      specialShifts: retrieveListFromSpecialShifts()
-    };
-
-    //console.log(shifts);
-
-    // Send data structure to main process
-    ipcRenderer.send("updateShifts", shifts);
-  });
-
-  // Handling response
-  ipcRenderer.on("updateShiftsReply", (e, msg) => {
-    alert(msg);
-  });
 
   // ========================
   // CHECKING FOR EXISTING SHIFT AND INPUTTING IT
@@ -614,49 +287,30 @@ $(document).ready(() => {
 
   // Accept the response
   ipcRenderer.on("getShiftResponse", (e, shifts) => {
-    // Adding special shifts
-    shifts.specialShifts.forEach(shift => {
-      // Setting values
-      $(".specialShiftDate")
-        .first()
-        .val(shift.date);
-      $(".specialShiftRequiredSkill")
-        .first()
-        .val(shift.requiredSkill);
-      $(".specialShiftStart")
-        .first()
-        .val(shift.startTime);
-      $(".specialShiftEnd")
-        .first()
-        .val(shift.endTime);
+    console.log("INCOMING SHIFTS");
+    console.log(shifts);
+    daysOfWeek.forEach(day => {
+      shifts[day].forEach(shift => {
+        $("#" + day + "ShiftsSection").children(".form-group").children(".addShift").click();
 
-      // Setting off click event for that the day
+        $("." + day + "Shift").first().children(".startTime").val(shift.startTime)
+        $("." + day + "Shift").first().children(".endTime").val(shift.endTime)
+        $("." + day + "Shift").first().children(".form-group").children("." + day + "Pos").val(shift.position)
+      })
+    })
+
+    shifts.specialShifts.forEach(specialShift => {
       $("#addSpecialShift").click();
-    });
+      $(".specialShiftDate").first().val(specialShift.date);
 
-    // Removing id and shifts from keys because they aren't needed right now
-    var keys = Object.keys(shifts);
-    var keys = keys.filter(function (value, index, arr) {
-      return value != "_id" && value != "specialShifts";
-    });
+      console.log($(".form-control.specialShiftPosition").first());
+      console.log($(".specialShiftStart").first());
+      console.log($(".specialShiftEnd").first());
 
-    // Looping through each day and inputting into form
-    keys.forEach(dayOfWeek => {
-      shifts[dayOfWeek].forEach(shift => {
-        // Setting values
-        $("." + dayOfWeek + "RequiredSkill")
-          .first()
-          .val(shift.requiredSkill);
-        $("." + dayOfWeek + "ShiftStart")
-          .first()
-          .val(shift.startTime);
-        $("." + dayOfWeek + "ShiftEnd")
-          .first()
-          .val(shift.endTime);
+      $(".specialShiftPosition.form-control").first().val(specialShift.position);
+      $(".specialShiftStart.startTime").first().val(specialShift.startTime);
+      $(".specialShiftEnd.endTime").first().val(specialShift.endTime)
+    })
 
-        // Setting off click event for that the day
-        $("#add" + capitalize(dayOfWeek) + "Shift").click();
-      });
-    });
   });
 });
