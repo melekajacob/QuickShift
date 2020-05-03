@@ -4,9 +4,14 @@ var Datastore = require("nedb");
 const fs = require("fs");
 global.currentEmployeeId = null;
 
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let loadingWindow;
+
+const ProgressBar = require('electron-progressbar');
+global.progressBar = null;
 
 // Initializing employee datastore (employee collection)
 var employeeDB = new Datastore({
@@ -37,6 +42,15 @@ function createWindow() {
     webPreferences: { nodeIntegration: true }
   });
 
+  // loadingWindow = new BrowserWindow({
+  //   parent: mainWindow,
+  //   modal: true,
+  //   show: false,
+  //   width: 200,
+  //   height: 100,
+  //   webPreferences: { nodeIntegration: true }
+  // });
+
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile("./views/home.html");
 
@@ -47,13 +61,25 @@ function createWindow() {
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
+
+  // loadingWindow.on("closed", () => {
+  //   loadingWindow = null;
+  // })
 }
 
 // Electron `app` is ready
 app.on("ready", createWindow);
 
+ipcMain.on("showLoadingMessage", (e) => {
+  global.progressBar = new ProgressBar({
+    text: "Creating Optimized Schedule",
+    detail: 'This should just take a second...'
+  }, app);
+})
 
-
+ipcMain.on("doneLoading", (e) => {
+  global.progressBar.setCompleted();
+})
 
 // Listens for new employee from renderer process
 ipcMain.on("newEmployee", (e, newEmployee) => {

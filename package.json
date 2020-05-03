@@ -4,10 +4,14 @@
   "description": "Automated Scheduling for Pharmacy Managers",
   "main": "app.js",
   "dependencies": {
+    "aws-sdk": "^2.668.0",
+    "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "bootstrap-datepicker": "^1.9.0",
+    "cartesian-product-generator": "^1.1.1",
     "electron": "^7.2.3",
     "electron-prebuilt": "^1.4.13",
+    "electron-progressbar": "^1.2.0",
     "electron-rebuild": "^1.10.1",
     "fontawesome": "^5.6.3",
     "iter-tools": "^6.2.6",
@@ -19,7 +23,9 @@
     "mongoose": "^5.9.10",
     "nedb": "^1.8.0",
     "node": "^12.16.2",
-    "timepicker": "^1.13.4"
+    "progress": "^2.0.3",
+    "timepicker": "^1.13.4",
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0"
