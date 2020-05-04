@@ -3,27 +3,23 @@ const { ipcRenderer } = require("electron");
 const moment = require("moment");
 const axios = require('axios')
 
-
-// const Combinatorics = require('js-combinatorics');
-// const product = require('cartesian-product-generator').product;
-
 // Calling helper class Library and the required method fillSkills
 const classLibrary = require("../public/javascript/classLibrary.js");
 const fillSkills = classLibrary.fillSkills;
 
 
 // get employee list
-employees = ipcRenderer.sendSync("employeeListSync");
+var employees = ipcRenderer.sendSync("employeeListSync");
 
 // get required shifts
-shifts = ipcRenderer.sendSync("getShiftRequestSync");
+var shifts = ipcRenderer.sendSync("getShiftRequestSync");
 
 // Reporting employees and shifts
 console.log(employees);
 console.log(shifts);
 
 // get positions
-skills = ipcRenderer.sendSync("getBusinessInfoSync").skills;
+var skills = ipcRenderer.sendSync("getBusinessInfoSync").skills;
 
 function log(obj, msg) {
   console.log(msg + ":");
@@ -763,8 +759,6 @@ function getMonday(date) {
 
 }
 
-
-
 // INPUT: weeks -> Number of weeks the schedule is for (basically number of tables)
 // INPUT: startDate -> Javascript date for the first day of the schedule 
 // INPUT: daysOfWeek -> Name for each day of the week [monday, tuesday, ...]
@@ -930,7 +924,6 @@ $(document).ready(() => {
     // loop through each week
     for (var i = 0; i < weekDiff; ++i) {
 
-
       // get shift requirements for each day of the week (formatted from above) (NEED TO FIX, GIVING ALL THE SAME DATE)
       weekShifts = formatWeekShifts(shiftsCopy, changeDate(i * 7, startDateOfWeek), daysOfWeek);
 
@@ -947,7 +940,7 @@ $(document).ready(() => {
         .then(res => {
           numResponses++;
 
-          optimalWeekShifts = res.data;
+          var optimalWeekShifts = res.data;
 
           daysOfWeek.forEach(day => {
             optimalWeekShifts[day].forEach(shift => {
@@ -978,33 +971,6 @@ $(document).ready(() => {
       //allocateWeekShifts(optimalWeekShifts, daysOfWeek);
 
       //alertMissingShifts(optimalWeekShifts, weekShifts, daysOfWeek);
-
-      // // REPLACE BELOW WITH IMPROVED ALGORITHM
-      // // loop through each day of week and then loop through shift requirements(dont forget special shift requirements)
-      // daysOfWeek.forEach((day) => {
-      //   weekShifts[day].forEach((shift) => {
-
-      //     if ((shift.date >= getNoOffsetDate(startDate)) && (shift.date <= getNoOffsetDate(endDate))) {
-      //       // Removing people from employee list if they dont work for shift
-      //       pool = checkPool(shift, employeeList);
-
-      //       // Allocating shifts
-      //       employeeList = allocateShift(shift, pool, employeeList, daysOfWeek);
-
-      //       // reset scores
-      //       for (var i = 0; i < employeeList.length; ++i) {
-      //         employeeList[i].score = 0;
-      //       }
-
-      //     };
-
-      //   })
-
-      //   // Resetting number of shifts worked that day
-      //   for (var i = 0; i < employeeList.length; ++i) {
-      //     employeeList[i].shiftsToday = 0;
-      //   }
-      // });
     }
 
 
@@ -1108,6 +1074,7 @@ $(document).ready(() => {
     $(this).removeClass("cellHover")
     $(this).children(".tdAddShift").remove();
   });
+
 
 });
 
