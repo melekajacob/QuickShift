@@ -114,23 +114,9 @@ function isValidPerm(permutation, shiftEncoding, employees) {
 }
 
 function getOptimalCombo(arr2D, validPermEncoding, shiftEncoding, employees, daysOfWeek) {
-  maxScore = -100000;
-  optimalShifts = {};
+  var maxScore = -100000;
+  var optimalShifts = {};
 
-  // var combos = new LazyProduct(arr2D)
-
-  // for (var i = 0, len = combos.length; i < len; ++i) {
-  //   var weekOption = combos.item(i);
-
-  //   allocShift = allocateShiftFormat(weekOption, validPermEncoding, shiftEncoding, employees, daysOfWeek);
-  //   newScore = getScore(allocShift, weekShifts, employees, daysOfWeek);
-
-  //   if (newScore > maxScore) {
-  //     maxScore = newScore;
-  //     optimalShifts = allocShift;
-  //   }
-
-  // }
 
   // Usage, assuming count/kinds/moods are all arrays
   log(arr2D, "WHAT WE ARE GETTING CARTESIAN PRODUCT OF")
@@ -148,26 +134,6 @@ function getOptimalCombo(arr2D, validPermEncoding, shiftEncoding, employees, day
     }
   });
 
-
-  // for (let weekOption of product(arr2D[0], arr2D[1], arr2D[2], arr2D[3], arr2D[4], arr2D[5], arr2D[6])) {
-  //   allocShift = allocateShiftFormat(weekOption, validPermEncoding, shiftEncoding, employees, daysOfWeek);
-  //   newScore = getScore(allocShift, weekShifts, employees, daysOfWeek);
-
-  //   if (newScore > maxScore) {
-  //     maxScore = newScore;
-  //     optimalShifts = allocShift;
-  //   }
-  // }
-  // cartProduct.forEach(weekOption => {
-  //   allocShift = allocateShiftFormat(weekOption, validPermEncoding, shiftEncoding, employees, daysOfWeek);
-  //   newScore = getScore(allocShift, weekShifts, employees, daysOfWeek);
-
-  //   if (newScore > maxScore) {
-  //     maxScore = newScore;
-  //     optimalShifts = allocShift;
-  //   }
-  // })
-
   return optimalShifts;
 }
 
@@ -182,7 +148,6 @@ function shiftIsPresent(targetShift, shiftList) {
 }
 
 function alertMissingShifts(allocShifts, weekShifts, daysOfWeek) {
-
   daysOfWeek.forEach(day => {
     weekShifts[day].forEach(weekShift => {
       if (!shiftIsPresent(weekShift, allocShifts[day])) {
@@ -195,13 +160,13 @@ function alertMissingShifts(allocShifts, weekShifts, daysOfWeek) {
 }
 
 function allocateShiftFormat(weekOption, validPermEncoding, shiftEncoding, employees, daysOfWeek) {
-  allocShifts = {}
+  var allocShifts = {}
 
   weekOption.forEach((dayOption, i) => {
     allocShifts[daysOfWeek[i]] = [];
 
     if (dayOption != 0) {
-      dayShifts = validPermEncoding[dayOption];
+      var dayShifts = validPermEncoding[dayOption];
 
       dayShifts.forEach((shift, j) => {
         if (shift != 0) {
@@ -224,7 +189,7 @@ function allocateShiftFormat(weekOption, validPermEncoding, shiftEncoding, emplo
 }
 
 function numOfWeeklyShifts(shifts, daysOfWeek) {
-  numShifts = 0;
+  var numShifts = 0;
   daysOfWeek.forEach(day => {
     numShifts += shifts[day].length
   })
@@ -232,10 +197,10 @@ function numOfWeeklyShifts(shifts, daysOfWeek) {
 }
 
 function getScore(allocShifts, weekShifts, employees, daysOfWeek) {
-  totalScore = 0;
+  var totalScore = 0;
 
   // 1: Check that every shift is filled
-  shiftDiff = numOfWeeklyShifts(allocShifts, daysOfWeek) - numOfWeeklyShifts(weekShifts, daysOfWeek);
+  var shiftDiff = numOfWeeklyShifts(allocShifts, daysOfWeek) - numOfWeeklyShifts(weekShifts, daysOfWeek);
 
   if (shiftDiff == 0) {
     totalScore += 20;
@@ -268,10 +233,10 @@ function getScore(allocShifts, weekShifts, employees, daysOfWeek) {
 
     // Figure out how scoring system will work
     if (hoursWorked > employee.maxHoursPerWeek) {
-      amountOver = hoursWorked - employee.maxHoursPerWeek;
+      var amountOver = hoursWorked - employee.maxHoursPerWeek;
       totalScore -= amountOver;
     } else if (hoursWorked < employee.minHoursPerWeek) {
-      amountUnder = employee.minHoursPerWeek - hoursWorked;
+      var mountUnder = employee.minHoursPerWeek - hoursWorked;
       totalScore -= amountUnder;
     }
 
@@ -325,70 +290,11 @@ function optimalWeekShiftCombo(weekShifts, employees, daysOfWeek) {
     })
   })
 
-  // log(shiftEncoding, "ENCODING FOR SHIFTS")
-  // log(dayOfWeekEncoding, "WHAT DAY EACH SHIFT ENCODING IS");
-  // var q = 1;
-  // validPermEncoding = {};
-  // validPermDayEncoding = {};
-  // arr2D = [];
-  // daysOfWeek.forEach(day => {
-  //   validPermDayEncoding[day] = [];
-
-  //   if (dayOfWeekEncoding[day].length > 0) {
-  //     dayShifts = dayOfWeekEncoding[day];
-  //     appendZeros(dayShifts, numEmployees - 1);
-
-  //     log(dayShifts, "DAY SHIFTS WITH APPENDED 0's")
-  //     // Getting every permutation generator
-  //     cmb = Combinatorics.permutation(dayShifts, numEmployees);
-  //     // arr = [...new Set(cmb.toArray())];
-  //     // cmb = Combinatorics.combination(dayShifts, numEmployees);
-  //     log(cmb.toArray());
-  //     while (permutation = cmb.next()) {
-  //       if (isValidPerm(permutation, shiftEncoding, employees)) {
-  //         validPermEncoding[q] = permutation;
-
-  //         validPermDayEncoding[day].push(q);
-  //         ++q;
-  //       }
-  //     }
-
-  //     validPermEncoding[q] = appendZeros([], numEmployees);
-  //     validPermDayEncoding[day].push(q);
-  //   }
-
-  //   // Creating 2D array to apply cartesian product
-  //   if (validPermDayEncoding[day].length == 0) {
-  //     arr2D.push([0]);
-  //   } else {
-  //     arr2D.push(validPermDayEncoding[day]);
-  //   }
-
-  // })
-
-  //log(validPermEncoding, "ENCODING FOR THE VALID PERMUTATIONS");
-  // log(validPermDayEncoding, "WHAT DAY EACH VALID PERMUTATION FALLS UNDER")
-
-  // daysOfWeekPerm = {};
-  // // 3: Find all permutations to each day of the week's combination of numbers and check its validity
-  // daysOfWeek.forEach(day => {
-  //   if (dayOfWeekEncoding[day].length != 0) {
-  //     dayOfWeekEncoding[day].push(0);
-  //   }
-
-
-  //   dayShiftOptions = [];
-  //   for (var r = 0; r < numEmployees; ++r) {
-  //     dayShiftOptions.push(dayOfWeekEncoding[day])
-  //   }
-
-  //   daysOfWeekPerm[day] = cartesianProduct(dayShiftOptions);
-  // })
 
   var q = 1;
-  validPermEncoding = {};
-  validPermDayEncoding = {};
-  arr2D = [];
+  var validPermEncoding = {};
+  var validPermDayEncoding = {};
+  var arr2D = [];
   // log(daysOfWeekPerm, "EVERY POSSIBLE COMBINATION OF SHIFTS FOR EACH DAY")
   daysOfWeek.forEach(day => {
     validPermDayEncoding[day] = [];
@@ -398,7 +304,7 @@ function optimalWeekShiftCombo(weekShifts, employees, daysOfWeek) {
     }
 
 
-    dayShiftOptions = [];
+    var dayShiftOptions = [];
     for (var r = 0; r < numEmployees; ++r) {
       dayShiftOptions.push(dayOfWeekEncoding[day])
     }
@@ -429,45 +335,8 @@ function optimalWeekShiftCombo(weekShifts, employees, daysOfWeek) {
   log(validPermEncoding, "ENCODING FOR THE VALID PERMUTATIONS");
   log(validPermDayEncoding, "WHAT DAY EACH VALID PERMUTATION FALLS UNDER")
 
-  // // 4: Encode the valid permutations 
-  // var q = 1;
-  // validPermEncoding = {};
-  // validPermDayEncoding = {};
-  // arr2D = [];
-  // daysOfWeek.forEach(day => {
-  //   validPermDayEncoding[day] = [];
-
-  //   daysOfWeekPerm[day].forEach(permutation => {
-  //     // log(permutation, "POSSIBLE ARRANGEMENT OF SHIFTS");
-  //     // log(hasNonZeroRepeats(permutation), "DOES IT HAVE NON ZERO REPEATS")
-  //     // log(isValidPerm(permutation, shiftEncoding, employees), "IS SHIFT VALID?")
-  //     if (isValidPerm(permutation, shiftEncoding, employees)) { // Checking valid perm every is probably cumbersome, may need to optimize
-  //       validPermEncoding[q] = permutation;
-
-  //       validPermDayEncoding[day].push(q);
-  //       ++q;
-  //     }
-  //   })
-  //   // Creating 2D array to apply cartesian product
-  //   if (validPermDayEncoding[day].length == 0) {
-  //     arr2D.push([0]);
-  //   } else {
-  //     arr2D.push(validPermDayEncoding[day]);
-  //   }
-
-
-  // })
-
   optimalShifts = getOptimalCombo(arr2D, validPermEncoding, shiftEncoding, employees, daysOfWeek);
 
-
-  // //5: Producing the cartesian product
-  // cartProduct = cartesianProduct(arr2D)
-  // //LEFT OFF FIXING THE CARTESIAN PRODUCT FUNCTION
-
-  // log(cartProduct, "CARTESIAN PRODUCT")
-  // // 6: Getting optimal arrangement of shifts
-  // optimalShifts = getOptimalCombo(cartProduct, validPermEncoding, shiftEncoding, employees, daysOfWeek);
   log(optimalShifts, "OPTIMAL SHIFT ALLOC")
 
   return optimalShifts;
@@ -480,16 +349,16 @@ function calcHoursWorkedInWeek(numOfWeeks, startDateOfWeek) {
   // cycling through each table
   for (var i = 0; i < numOfWeeks; ++i) {
     employees.forEach(employee => {
-      hoursWorkedInWeek = 0;
+      var hoursWorkedInWeek = 0;
 
       // Cycling through each day of the week
       for (var j = 0; j < 7; ++j) {
 
-        contentId = employee.firstName + employee.lastName + getFormattedDate(changeDate(i * 7 + j, startDateOfWeek), "MMMD");
+        var contentId = employee.firstName + employee.lastName + getFormattedDate(changeDate(i * 7 + j, startDateOfWeek), "MMMD");
 
         if ($("." + contentId + ".startTime").is(":visible")) {
-          startTime = $("." + contentId + ".startTime").val();
-          endTime = $("." + contentId + ".endTime").val();
+          var startTime = $("." + contentId + ".startTime").val();
+          var endTime = $("." + contentId + ".endTime").val();
 
           hoursWorkedInWeek += getTimeDiff(startTime, endTime);
         }
@@ -501,8 +370,8 @@ function calcHoursWorkedInWeek(numOfWeeks, startDateOfWeek) {
 }
 
 function getDaysDiff(startDate, endDate) {
-  start = getNoOffsetDate(startDate);
-  end = getNoOffsetDate(endDate);
+  var start = getNoOffsetDate(startDate);
+  var end = getNoOffsetDate(endDate);
 
   // To calculate the time difference of two dates 
   var Difference_In_Time = end.getTime() - start.getTime();
@@ -699,14 +568,10 @@ function noConflicts(employee, shift) {
 
 function checkSpace(hoursWorked, maxHours, shift) {
   // get shift length in hours (not using moment here)
-  shiftLength = getTimeDiff(shift.startTime, shift.endTime);
+  var shiftLength = getTimeDiff(shift.startTime, shift.endTime);
 
   // check if hours worked + shift length > maxHours, if not return true, if yes return false
-  if (hoursWorked + shiftLength > maxHours) {
-    return false;
-  } else {
-    return true;
-  }
+  return hoursWorked + shiftLength <= maxHours
 }
 
 function skillMatch(employeeSkills, shiftReq) {
