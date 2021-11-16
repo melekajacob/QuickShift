@@ -4,7 +4,7 @@
   "description": "Automated Scheduling for Pharmacy Managers",
   "main": "app.js",
   "dependencies": {
-    "aws-sdk": "^2.668.0",
+    "aws-sdk": "^2.814.0",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "bootstrap-datepicker": "^1.9.0",
