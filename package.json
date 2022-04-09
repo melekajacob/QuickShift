@@ -17,7 +17,7 @@
     "iter-tools": "^6.2.6",
     "jquery": "^3.5.0",
     "js-combinatorics": "^0.5.5",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mongodb": "^3.5.6",
     "mongojs": "^2.6.0",
     "mongoose": "^5.9.10",
