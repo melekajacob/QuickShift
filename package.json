@@ -9,7 +9,7 @@
     "bootstrap": "^4.4.1",
     "bootstrap-datepicker": "^1.9.0",
     "cartesian-product-generator": "^1.1.1",
-    "electron": "^7.2.3",
+    "electron": "^15.5.5",
     "electron-prebuilt": "^1.4.13",
     "electron-progressbar": "^1.2.0",
     "electron-rebuild": "^1.10.1",
